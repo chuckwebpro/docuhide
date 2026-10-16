@@ -1,7 +1,9 @@
-# astro-business-starter
+# docuhide
 
-Static business-site starter: Astro 5 + Tailwind CSS v4, token-driven theming, an accessible
+Site conversion for DocuHide — Astro 5 + Tailwind CSS v4, token-driven theming, an accessible
 header, and full SEO output. Builds to plain HTML for cPanel/Apache hosting.
+
+Repository: [github.com/chuckwebpro/docuhide](https://github.com/chuckwebpro/docuhide)
 
 Three pages ship (`/`, `/404`, `/thank-you/`). Everything else — about, services, contact, legal,
 a blog — is added per project from the block library. There is no CMS and no content collection
