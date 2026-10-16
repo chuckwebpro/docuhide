@@ -133,7 +133,7 @@ const linkClass =
     </ul>
 
     <div class="mt-6 flex flex-col gap-3">
-      {navigation.cta && <Button href={navigation.cta.href}>{navigation.cta.label}</Button>}
+      {navigation.cta?.href && <Button href={navigation.cta.href}>{navigation.cta.label}</Button>}
       <Button href={`tel:${site.business.phoneHref}`} variant="secondary">
         <Icon name="lucide:phone" class="size-4" aria-hidden="true" />
         {site.business.phone}

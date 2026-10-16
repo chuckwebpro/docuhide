@@ -11,52 +11,70 @@ export interface FaqEntry {
   answer: string;
 }
 
+interface ArticleSchema {
+  headline: string;
+  description: string;
+  datePublished: string;
+  image?: string;
+}
+
 interface Props {
   breadcrumbs?: BreadcrumbEntry[];
   faqs?: FaqEntry[];
   service?: { name: string; description?: string };
+  article?: ArticleSchema;
 }
 
-const { breadcrumbs, faqs, service } = Astro.props;
+const { breadcrumbs, faqs, service, article } = Astro.props;
 
-const businessId = `${site.url}/#business`;
+const orgId = `${site.url}/#organization`;
+const softwareId = `${site.url}/#software`;
 const abs = (path: string) => new URL(path, site.url).href;
+const ogImage = abs(site.defaultOgImage);
+
+const organizationNode: Record<string, unknown> = {
+  '@type': site.business.schemaType,
+  '@id': orgId,
+  name: site.name,
+  legalName: site.legalName,
+  description: site.description,
+  url: site.url,
+  email: site.business.email,
+  telephone: site.business.phone,
+  image: ogImage,
+  openingHours: site.business.hours,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: site.business.phone,
+    contactType: 'sales',
+    email: site.business.email,
+    areaServed: 'US',
+    availableLanguage: 'English',
+  },
+};
 
 const graph: Record<string, unknown>[] = [
+  organizationNode,
   {
-    '@type': site.business.schemaType,
-    '@id': businessId,
+    '@type': 'SoftwareApplication',
+    '@id': softwareId,
     name: site.name,
-    legalName: site.legalName,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Windows',
     description: site.description,
-    url: site.url,
-    telephone: site.business.phone,
-    email: site.business.email,
-    priceRange: site.business.priceRange,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: site.business.address.street,
-      addressLocality: site.business.address.locality,
-      addressRegion: site.business.address.region,
-      postalCode: site.business.address.postalCode,
-      addressCountry: site.business.address.country,
+    offers: {
+      '@type': 'Offer',
+      description: 'Schedule a demo for pricing',
+      url: site.url,
     },
-    ...(site.business.geo && {
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: site.business.geo.latitude,
-        longitude: site.business.geo.longitude,
-      },
-    }),
-    openingHours: site.business.hours,
-    sameAs: Object.values(site.social).filter(Boolean),
+    provider: { '@id': orgId },
   },
   {
     '@type': 'WebSite',
     '@id': `${site.url}/#website`,
     url: site.url,
     name: site.name,
-    publisher: { '@id': businessId },
+    publisher: { '@id': orgId },
     inLanguage: site.locale,
   },
 ];
@@ -89,8 +107,20 @@ if (service) {
     '@type': 'Service',
     name: service.name,
     description: service.description,
-    provider: { '@id': businessId },
-    areaServed: site.business.address.region,
+    provider: { '@id': orgId },
+  });
+}
+
+if (article) {
+  graph.push({
+    '@type': 'BlogPosting',
+    headline: article.headline,
+    description: article.description,
+    datePublished: article.datePublished,
+    image: article.image ? abs(article.image) : ogImage,
+    author: { '@id': orgId },
+    publisher: { '@id': orgId },
+    mainEntityOfPage: Astro.url.href,
   });
 }
 

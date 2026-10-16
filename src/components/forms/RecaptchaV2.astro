@@ -1,0 +1,40 @@
+---
+import { site } from '../../config/site';
+
+const siteKey = site.recaptchaSiteKey;
+const useV2 = Boolean(siteKey && site.recaptchaVersion === 'v2');
+---
+
+{
+  useV2 && (
+    <>
+      <div id="recaptcha-v2-config" hidden data-sitekey={siteKey} />
+      <script
+        is:inline
+        src="https://www.google.com/recaptcha/api.js?onload=recapOnload&render=explicit"
+        async
+        defer
+      />
+    </>
+  )
+}
+
+<script is:inline>
+  window.recapOnload = () => {
+    const siteKey = document.getElementById('recaptcha-v2-config')?.dataset.sitekey ?? '';
+    if (!siteKey) return;
+
+    const renderOptions = {
+      sitekey: siteKey,
+      callback: () => {
+        if (typeof window.verifyCallback === 'function') window.verifyCallback();
+      },
+    };
+    document.querySelectorAll('.g-recaptcha').forEach((el) => {
+      if (!el.hasChildNodes()) {
+        grecaptcha.render(el, renderOptions);
+      }
+    });
+    window.patchRecaptchaA11y?.();
+  };
+</script>

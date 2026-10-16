@@ -14,6 +14,12 @@ declare global {
     uetq?: unknown[];
     dataLayer?: unknown[];
     __tagsLoaded?: boolean;
+    recapOnload?: () => void;
+    patchRecaptchaA11y?: () => void;
+    verifyCallback?: () => void;
+    grecaptcha?: {
+      render: (container: Element, options: { sitekey: string; callback?: () => void }) => number;
+    };
   }
 }
 

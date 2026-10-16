@@ -1,0 +1,38 @@
+# Docuhide
+
+> Docuhide is role-based encrypted document redaction software — real redaction (not masking) with tamperproof authorization, protection at rest and in transit, and patent-pending technology.
+
+## Products
+
+- Docuhide Complete — All office documents; HIPAA, SOX, legal compliance focus.
+- Docuhide Milspec — Military-grade encryption; DOD/DOJ-oriented deployments.
+- Docuhide Lite — Word and email workflows; mobile and tablet users.
+
+## Key pages
+
+- Home: https://www.docuhide.com/
+- Overview (solutions): https://www.docuhide.com/solutions/
+- News: https://www.docuhide.com/news/
+
+## News articles
+
+- Atlassian Data Leak Part 1: https://www.docuhide.com/article/atlassian-data-leak-part-1/
+- Atlassian Data Leak PART 2: https://www.docuhide.com/article/atlassian-data-leak-part-2/
+- AveMaria Info-stealer Infect More Users: https://www.docuhide.com/article/avemaria-info-stealer-infect-more-users/
+- Critical Windows Snipping Tool Vulnerability: https://www.docuhide.com/article/critical-windows-snipping-tool-vulnerability/
+- Data Breaches in 2022 and 2023: https://www.docuhide.com/article/data-breaches-in-2022-and-2023/
+- Dropbox Breech. Who's Next: https://www.docuhide.com/article/dropbox-breech--who-s-next/
+- Google Pixel FLAW Allowed Recovery of Redacted Images: https://www.docuhide.com/article/google-pixel-flaw-allowed-recovery-of-redacted-images/
+- Microsoft baffled how hackers stole Azure AD signing key: https://www.docuhide.com/article/microsoft-baffled-how-hackers-stole-azure-ad-signing-key/
+- North Korean ransomware attacks on healthcare: https://www.docuhide.com/article/north-korean-ransomware-attacks-on-healthcare-/
+- Document Security and Redaction: https://www.docuhide.com/article/document-security-and-redaction/
+
+## Contact
+
+- Phone: +1 (833) 362-8443 (+1 833 DOCUHIDE)
+- Email: ir@docuhide.com, ir@docuhide.io, demo@docuhide.com
+- Schedule a demo: use the "Schedule Demo" button on any page (lead form with reCAPTCHA).
+
+## Topics
+
+Document redaction, role-based access, document security, encryption, DAS (document as a service), ransomware and data breach mitigation, compliance (HIPAA, SOX, legal, DOD).

@@ -1,0 +1,89 @@
+---
+import { site } from '../../config/site';
+---
+
+<dialog id="popout-demo-form">
+  <img
+    src="/images/logo-main.png"
+    class="aside-logo"
+    alt="Docuhide Form Logo"
+    width="746"
+    height="140"
+  />
+  <p style="line-height:1.25;">
+    One of our advisors will contact you to discuss your needs in depth.
+  </p>
+  <form id="demo-form" class="default-form">
+    <input
+      name="scheduleDemo$formSettingsElem"
+      type="hidden"
+      id="formSettingsElem"
+      data-response="We have received your request. You should get a confirmation email from us at the email you provided."
+      data-subject="Requesting A Demo"
+      data-greeting="We have received your demo request and will contact you shortly to schedule a demo."
+      data-subtext="Thank You for contacting us."
+    />
+    <label for="first-name">
+      First Name
+      <input id="first-name" type="text" data-form-key="firstname" data-form-label="First Name" />
+    </label>
+    <label for="last-name">
+      Last Name
+      <input id="last-name" type="text" data-form-key="lastname" data-form-label="Last Name" />
+    </label>
+    <label for="email">
+      Email
+      <input id="email" type="email" data-form-key="email" data-form-label="Email" />
+    </label>
+    <label for="company-name">
+      Company Name
+      <input
+        id="company-name"
+        type="text"
+        data-form-key="companyName"
+        data-form-label="Company Name"
+      />
+    </label>
+    <label for="country" data-select-label="">
+      Select Country
+      <select id="country" data-form-key="country" data-form-label="Country">
+        <option value=""></option>
+        <option value="United States">United States</option>
+      </select>
+    </label>
+    <label for="phone">
+      Phone
+      <input id="phone" type="text" data-form-key="phone" data-form-label="Phone" />
+    </label>
+    <label for="details">
+      Detail Your Needs
+      <textarea id="details" data-form-key="details" data-form-label="Details" rows="2"></textarea>
+    </label>
+    <label for="contact-permission" data-checkbox-label="" class="margin-block-16">
+      <input
+        id="contact-permission"
+        type="checkbox"
+        data-form-key="contactPermission"
+        data-form-label="Contact Permission"
+      />
+      <span> Would you like to receive future offers and product information about Docuhide? </span>
+    </label>
+    <div class="margin-block-end-16 flex">
+      <button type="submit" class="btn" data-color="light" data-invert="">Send Your Request</button>
+      <div class="hidden-recaptcha">
+        <span id="demo-form-recaptcha-label" class="visually-hidden">Security verification</span>
+        <div class="g-recaptcha" id="demo-form-recap" aria-labelledby="demo-form-recaptcha-label">
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn" aria-expanded="false" aria-controls="popout-demo-form"
+      >x</button
+    >
+  </form>
+  <div class="aside-links">
+    <a href={`tel:${site.business.phoneHref}`}>{site.business.phone}</a>
+    <a href={`tel:${site.business.phoneHref}`}>+1 (833) DOCUHIDE</a>
+    <a href="mailto:ir@docuhide.com">ir@docuhide.com</a>
+    <a href="mailto:ir@docuhide.io">ir@docuhide.io</a>
+  </div>
+</dialog>

@@ -1,0 +1,104 @@
+---
+import SEO from '../components/seo/SEO.astro';
+import homeStyles from '../styles/docuhide-bundle-home.css?url';
+import interiorStyles from '../styles/docuhide-bundle-interior.css?url';
+import blogStyles from '../styles/docuhide-bundle-blog.css?url';
+import articleStyles from '../styles/docuhide-bundle-article.css?url';
+import montserrat700 from '@fontsource/montserrat/files/montserrat-latin-700-normal.woff2?url';
+import Schema, { type BreadcrumbEntry } from '../components/seo/Schema.astro';
+import DocuHideHeader from '../components/docuhide/DocuHideHeader.astro';
+import DocuHideFooter from '../components/docuhide/DocuHideFooter.astro';
+import ScheduleDemoDialog from '../components/docuhide/ScheduleDemoDialog.astro';
+import VideoPanel from '../components/docuhide/VideoPanel.astro';
+import RecaptchaV2 from '../components/forms/RecaptchaV2.astro';
+import { site } from '../config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  titleExact?: boolean;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  breadcrumbs?: BreadcrumbEntry[];
+  interior?: boolean;
+  styles?: 'home' | 'interior' | 'blog';
+  articleSchema?: {
+    headline: string;
+    description: string;
+    datePublished: string;
+    image?: string;
+  };
+}
+
+const {
+  breadcrumbs,
+  interior = false,
+  styles = interior ? 'interior' : 'home',
+  articleSchema,
+  ...seo
+} = Astro.props;
+
+const bodyClass = styles === 'home' ? '' : 'docuhide-interior';
+
+const stylesheet = articleSchema
+  ? articleStyles
+  : styles === 'home'
+    ? homeStyles
+    : styles === 'blog'
+      ? blogStyles
+      : interiorStyles;
+---
+
+<!doctype html>
+<html lang={site.locale} class={bodyClass}>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Matches live Modernizr: mobile vs desktop nav CSS hooks -->
+    <script is:inline>
+      (function () {
+        const root = document.documentElement;
+        const sync = () => {
+          const desktop = window.matchMedia('(min-width: 1000px)').matches;
+          root.classList.toggle('no-touchevents', desktop);
+          root.classList.toggle('touchevents', !desktop);
+          root.classList.toggle('docuhide-desktop', desktop);
+        };
+        sync();
+        window.matchMedia('(min-width: 1000px)').addEventListener('change', sync);
+      })();
+    </script>
+    <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <link rel="preload" href="/images/logo-main.png" as="image" />
+    <link rel="preload" href={montserrat700} as="font" type="font/woff2" crossorigin />
+    {styles === 'home' && <link rel="preload" href="/images/banners/bg-hero.webp" as="image" />}
+    <link rel="stylesheet" href={stylesheet} />
+    <SEO {...seo} />
+    <Schema breadcrumbs={breadcrumbs} article={articleSchema} />
+    <slot name="head" />
+  </head>
+  <body>
+    <DocuHideHeader />
+    <slot />
+    <aside>
+      <ScheduleDemoDialog />
+    </aside>
+    <DocuHideFooter />
+    <VideoPanel />
+    <RecaptchaV2 />
+    <script src="/scripts/docuhide.js" defer></script>
+  </body>
+</html>
+
+<style is:global>
+  html.docuhide-interior body main.interior {
+    background-color: var(--clr-light-900);
+    color: var(--clr-dark-900);
+  }
+</style>

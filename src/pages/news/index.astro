@@ -1,0 +1,41 @@
+---
+import DocuHideLayout from '../../layouts/DocuHideLayout.astro';
+import { newsIndexCards } from '../../config/news-cards';
+---
+
+<DocuHideLayout
+  title="Docuhide - Blog"
+  titleExact
+  description="Docuhide - Blog"
+  interior
+  styles="blog"
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: 'News', href: '/news/' },
+  ]}
+>
+  <main class="interior" data-type="nav-space">
+    <section class="news-page margin-block-end-60">
+      <div class="container">
+        <div id="main">
+          <h1 class="fs-800 padding-inline-start-16 margin-block-16">Docuhide News</h1>
+          <ul id="articlecards_articleCards" class="article-feed flex flex-wrap">
+            {
+              newsIndexCards.map((card) => (
+                <li>
+                  <a href={`/article/${card.slug}/`}>
+                    <article>
+                      <img src={card.banner} alt={card.title} />
+                      <p>{card.title}</p>
+                      <p class="article-date">{card.dateLabel}</p>
+                    </article>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</DocuHideLayout>

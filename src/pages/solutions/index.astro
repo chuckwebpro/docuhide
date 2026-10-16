@@ -1,0 +1,79 @@
+---
+import DocuHideLayout from '../../layouts/DocuHideLayout.astro';
+import SolutionsComparisonTable from '../../components/docuhide/SolutionsComparisonTable.astro';
+---
+
+<DocuHideLayout
+  title="Docuhide - About"
+  titleExact
+  description="Docuhide - The most complete document security program"
+  interior
+  styles="interior"
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: 'Overview', href: '/solutions/' },
+  ]}
+>
+  <main class="interior" data-type="fullscreen-panel">
+    <section class="hero" data-watching="unseen">
+      <picture>
+        <source
+          srcset="/images/banners/banner-int-alt2.webp"
+          media="(orientation: landscape)"
+          width="1986"
+          height="820"
+        />
+        <source
+          srcset="/images/portrait-banners/banner-int-mob1-0.webp 800w"
+          media="(orientation: portrait)"
+          width="800"
+          height="1083"
+        />
+        <img
+          src="/images/banners/banner-int-alt2.webp"
+          alt="Man hands cupping a folder icon"
+          width="1986"
+          height="820"
+        />
+      </picture>
+      <div class="container">
+        <div class="text-wrapper flow">
+          <h1 class="fs-700 fw-bold">Mitigating Exposure</h1>
+          <p>
+            No other application delivers role-based authorization and redaction with bullet proof
+            security like Docuhide.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="margin-block-60">
+      <SolutionsComparisonTable />
+      <div id="wysiwygContent" class="container" style="--container-width:1000px;">
+        <p>
+          We’ve learned very little since the extortive behavior of WikiLeaks, endless government
+          leakage, industrial espionage and ransomware cases. Without a newly imposed tamper-proof
+          architecture that is intuitive and provides users more granular control, the problem
+          continues to fester.
+        </p>
+        <p>
+          Whether intentional or accidentally, whether classified or not, document management and
+          distribution continue to lack affordability, intuitiveness, ample security and
+          user-friendly efficiencies for safely archiving, reading, authoring, and transmitting
+          digital media.
+        </p>
+        <p>
+          Current infrastructure is obviously in need of an overhaul. Quality assurance, document
+          security management, permission clearance scalability, with user metrics can be achieved
+          through an easy-to-use, signature-based document repository subscription like DocuSign but
+          with an added layer of redaction and readership. A new vertical aptly named Docuhide would
+          be marketed as a first DAS (document as service) provider. Such a service would mitigate
+          risk from nefarious actors whose sole intent is to profit by exposing personal, financial,
+          government, medical, legal, intellectual property, or otherwise privileged information.
+          Docuhide would provide a new level of tamperproof security for documents that is
+          administratively tethered and protected by the author / issuer regardless of document
+          destination while at rest or in transit to the DAS (document as service) provider.
+        </p>
+      </div>
+    </section>
+  </main>
+</DocuHideLayout>

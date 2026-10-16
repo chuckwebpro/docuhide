@@ -37,14 +37,30 @@ the same page.
    | `FTP_PASSWORD`   | Its password                             |
    | `FTP_SERVER_DIR` | `public_html/` (trailing slash required) |
 
-5. Update `site` in `astro.config.mjs` and the `Sitemap:` line in
-   `public/robots.txt` to the real domain.
+5. Set the public origin at build time with **`SITE_URL`** (canonical URLs,
+   sitemap, schema, and `robots.txt` all follow it). Production uses
+   `https://www.docuhide.com`; staging uses `https://site.docuhide.com`.
 
 ## Deploying
 
-`.github/workflows/deploy.yml` runs on every push to `main`: install → `verify`
-→ `build` → FTP upload of `dist/`. The `verify` gate means a type error or
-malformed frontmatter fails in CI instead of shipping.
+| Workflow             | Environment  | `SITE_URL`                  | Trigger                |
+| -------------------- | ------------ | --------------------------- | ---------------------- |
+| `deploy.yml`         | `production` | `https://www.docuhide.com`  | push to `main`, manual |
+| `deploy-staging.yml` | `staging`    | `https://site.docuhide.com` | push to `main`, manual |
+
+Both run `verify` → `build` → FTP upload of `dist/`. Create a GitHub
+**environment** named `staging` with FTP secrets scoped to the staging document
+root (e.g. `public_html/` for `site.docuhide.com`). Reuse the same
+`FTP_SERVER` / account or use staging-specific credentials.
+
+Staging is **indexable** (`Allow: /` in `robots.txt`, no `noindex`) so PageSpeed,
+Rich Results, and schema validators can crawl `https://site.docuhide.com/`.
+
+Local staging build:
+
+```bash
+SITE_URL=https://site.docuhide.com npm run build
+```
 
 Manual fallback: `npm run build` and upload the contents of `dist/`.
 

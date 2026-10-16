@@ -58,7 +58,7 @@ const positioned = sticky !== 'static';
       </a>
 
       {
-        navigation.cta && (
+        navigation.cta?.href && (
           <Button href={navigation.cta.href} size="sm" class="max-md:hidden">
             {navigation.cta.label}
           </Button>

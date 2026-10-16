@@ -1,0 +1,125 @@
+---
+const competitors = [
+  { key: 'docuhide' as const, label: 'Docuhide', logo: '/images/logo-main.png' },
+  { key: 'adobe' as const, label: 'Adobe' },
+  { key: 'redactable' as const, label: 'Redactable' },
+  { key: 'microsoft' as const, label: 'Microsoft' },
+];
+
+const rows: {
+  feature: string;
+  docuhide: boolean;
+  adobe: boolean;
+  redactable: boolean;
+  microsoft: boolean;
+}[] = [
+  {
+    feature: 'Impervious to Man in the Middle Attacks',
+    docuhide: true,
+    adobe: true,
+    redactable: true,
+    microsoft: false,
+  },
+  {
+    feature: 'Parent Document Integrity',
+    docuhide: true,
+    adobe: true,
+    redactable: false,
+    microsoft: true,
+  },
+  {
+    feature: 'Private Key Encryption Per Document',
+    docuhide: true,
+    adobe: false,
+    redactable: false,
+    microsoft: false,
+  },
+  {
+    feature: 'Important ANY Office Document',
+    docuhide: true,
+    adobe: false,
+    redactable: false,
+    microsoft: false,
+  },
+  {
+    feature: 'Secure Distribution List',
+    docuhide: true,
+    adobe: false,
+    redactable: false,
+    microsoft: false,
+  },
+  { feature: 'Audit Trail', docuhide: true, adobe: true, redactable: true, microsoft: false },
+  { feature: 'Action Reports', docuhide: true, adobe: false, redactable: false, microsoft: false },
+  {
+    feature: 'TTL - Time To Live',
+    docuhide: true,
+    adobe: false,
+    redactable: true,
+    microsoft: false,
+  },
+  {
+    feature: 'Permission Revocation while in Transit',
+    docuhide: true,
+    adobe: false,
+    redactable: false,
+    microsoft: false,
+  },
+  {
+    feature: 'Permission Revocation while at Rest',
+    docuhide: true,
+    adobe: false,
+    redactable: false,
+    microsoft: false,
+  },
+];
+---
+
+<div class="comparison-grid margin-block-60" role="table" aria-label="Docuhide feature comparison">
+  <div class="comparison-grid__head" role="rowgroup">
+    <div class="comparison-grid__row comparison-grid__row--head" role="row">
+      <div class="comparison-grid__feature" role="columnheader"></div>
+      {
+        competitors.map((competitor) => (
+          <div
+            class={`comparison-grid__brand comparison-grid__brand--${competitor.key}`}
+            role="columnheader"
+          >
+            {competitor.logo ? (
+              <img src={competitor.logo} alt="Docuhide" width="120" height="40" />
+            ) : (
+              competitor.label
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div class="comparison-grid__body" role="rowgroup">
+    {
+      rows.map((row, index) => (
+        <div
+          class:list={['comparison-grid__row', index % 2 === 1 && 'comparison-grid__row--alt']}
+          role="row"
+        >
+          <div class="comparison-grid__feature" role="rowheader">
+            {row.feature}
+          </div>
+          {competitors.map((competitor) => {
+            const hasFeature = row[competitor.key];
+            return (
+              <div
+                class={`comparison-grid__value comparison-grid__value--${competitor.key}`}
+                role="cell"
+                data-label={competitor.label}
+              >
+                <span class="has-feature" data-has={hasFeature ? 'yes' : 'no'}>
+                  <span class="visually-hidden">{hasFeature ? 'yes' : 'no'}</span>
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ))
+    }
+  </div>
+</div>

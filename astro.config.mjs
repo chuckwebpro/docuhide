@@ -6,9 +6,12 @@ import tailwindcss from '@tailwindcss/vite';
 
 const EXCLUDED_FROM_SITEMAP = ['/thank-you/', '/styleguide/'];
 
+/** Set SITE_URL in CI for staging (e.g. https://site.docuhide.com). */
+const SITE_URL = (process.env.SITE_URL || 'https://www.docuhide.com').replace(/\/$/, '');
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: SITE_URL,
   output: 'static',
   trailingSlash: 'always',
   build: { format: 'directory' },

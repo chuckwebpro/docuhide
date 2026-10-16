@@ -1,0 +1,139 @@
+{
+  "/favicon/favicon.ico": ["/favicon/favicon.ico"],
+  "/images/banners/banner-int-alt2.jpg": [
+    "/images/banners/banner-int-alt2.webp",
+    "/images/banners/banner-int-alt2.jpg"
+  ],
+  "/images/banners/bg-hero.jpg": ["/images/banners/bg-hero.webp", "/images/banners/bg-hero.jpg"],
+  "/images/hero-blurb-green2.png": [
+    "/images/hero-blurb-green2.webp",
+    "/images/hero-blurb-green2.png"
+  ],
+  "/images/logo-main.png": ["/images/logo-main.webp", "/images/logo-main.png"],
+  "/images/news-images/banner/CHINA-HACK.png": [
+    "/images/news-images/banner/CHINA-HACK.webp",
+    "/images/news-images/banner/CHINA-HACK.png"
+  ],
+  "/images/news-images/banner/DATA-BREECH-2023.jpg": [
+    "/images/news-images/banner/DATA-BREECH-2023.webp",
+    "/images/news-images/banner/DATA-BREECH-2023.jpg"
+  ],
+  "/images/news-images/banner/DROPbox-HACK.jpg": [
+    "/images/news-images/banner/DROPbox-HACK.webp",
+    "/images/news-images/banner/DROPbox-HACK.jpg"
+  ],
+  "/images/news-images/banner/INFO_STEELER.jpg": [
+    "/images/news-images/banner/INFO_STEELER.webp",
+    "/images/news-images/banner/INFO_STEELER.jpg"
+  ],
+  "/images/news-images/banner/NORTH-KOREA-BANNER.jpg": [
+    "/images/news-images/banner/NORTH-KOREA-BANNER.webp",
+    "/images/news-images/banner/NORTH-KOREA-BANNER.jpg"
+  ],
+  "/images/news-images/banner/Redaction-Windows11-Exploit.jpg": [
+    "/images/news-images/banner/Redaction-Windows11-Exploit.webp",
+    "/images/news-images/banner/Redaction-Windows11-Exploit.jpg"
+  ],
+  "/images/news-images/banner/generic-banner.jpg": [
+    "/images/news-images/banner/generic-banner.webp",
+    "/images/news-images/banner/generic-banner.jpg"
+  ],
+  "/images/news-images/banner/leak1.jpg": [
+    "/images/news-images/banner/leak1.webp",
+    "/images/news-images/banner/leak1.jpg"
+  ],
+  "/images/news-images/banner/leak2.jpg": [
+    "/images/news-images/banner/leak2.webp",
+    "/images/news-images/banner/leak2.jpg"
+  ],
+  "/images/news-images/banner/redaction-flaw-pixel.jpg": [
+    "/images/news-images/banner/redaction-flaw-pixel.webp",
+    "/images/news-images/banner/redaction-flaw-pixel.jpg"
+  ],
+  "/images/news-images/embeds/Folder-Lock.jpg": [
+    "/images/news-images/embeds/Folder-Lock.webp",
+    "/images/news-images/embeds/Folder-Lock.jpg"
+  ],
+  "/images/news-images/embeds/NK-story.jpg": [
+    "/images/news-images/embeds/NK-story.webp",
+    "/images/news-images/embeds/NK-story.jpg"
+  ],
+  "/images/news-images/embeds/Partially-Recovered-Redaction.jpg": [
+    "/images/news-images/embeds/Partially-Recovered-Redaction.webp",
+    "/images/news-images/embeds/Partially-Recovered-Redaction.jpg"
+  ],
+  "/images/news-images/embeds/SAMESIZE.jpg": [
+    "/images/news-images/embeds/SAMESIZE.webp",
+    "/images/news-images/embeds/SAMESIZE.jpg"
+  ],
+  "/images/news-images/embeds/SCR-CODE-FLAW.jpg": [
+    "/images/news-images/embeds/SCR-CODE-FLAW.webp",
+    "/images/news-images/embeds/SCR-CODE-FLAW.jpg"
+  ],
+  "/images/news-images/embeds/SCR-CODE-FLAW2.jpg": [
+    "/images/news-images/embeds/SCR-CODE-FLAW2.webp",
+    "/images/news-images/embeds/SCR-CODE-FLAW2.jpg"
+  ],
+  "/images/news-images/embeds/aCROPof.jpg": [
+    "/images/news-images/embeds/aCROPof.webp",
+    "/images/news-images/embeds/aCROPof.jpg"
+  ],
+  "/images/news-images/embeds/compare1.jpg": [
+    "/images/news-images/embeds/compare1.webp",
+    "/images/news-images/embeds/compare1.jpg"
+  ],
+  "/images/news-images/embeds/databreach.jpg": [
+    "/images/news-images/embeds/databreach.webp",
+    "/images/news-images/embeds/databreach.jpg"
+  ],
+  "/images/news-images/embeds/infosteeler-story.jpg": [
+    "/images/news-images/embeds/infosteeler-story.webp",
+    "/images/news-images/embeds/infosteeler-story.jpg"
+  ],
+  "/images/news-images/embeds/pixel-redaction-flaws.jpg": [
+    "/images/news-images/embeds/pixel-redaction-flaws.webp",
+    "/images/news-images/embeds/pixel-redaction-flaws.jpg"
+  ],
+  "/images/news-images/embeds/tweetybird1.jpg": [
+    "/images/news-images/embeds/tweetybird1.webp",
+    "/images/news-images/embeds/tweetybird1.jpg"
+  ],
+  "/images/news-images/embeds/vinny.jpg": [
+    "/images/news-images/embeds/vinny.webp",
+    "/images/news-images/embeds/vinny.jpg"
+  ],
+  "/images/news-images/embeds/whacked.jpg": [
+    "/images/news-images/embeds/whacked.webp",
+    "/images/news-images/embeds/whacked.jpg"
+  ],
+  "/images/news-images/thumbnails/Redaction-Windows11-Exploit.jpg": [
+    "/images/news-images/thumbnails/Redaction-Windows11-Exploit.webp",
+    "/images/news-images/thumbnails/Redaction-Windows11-Exploit.jpg"
+  ],
+  "/images/og.jpg": ["/images/og.webp", "/images/og.jpg"],
+  "/images/portrait-banners/banner-int-mob1-0.jpg": [
+    "/images/portrait-banners/banner-int-mob1-0.webp",
+    "/images/portrait-banners/banner-int-mob1-0.jpg"
+  ],
+  "/images/uploads/big-box.png": ["/images/uploads/big-box.webp", "/images/uploads/big-box.png"],
+  "/images/uploads/doc-hero-large.png": [
+    "/images/uploads/doc-hero-large.webp",
+    "/images/uploads/doc-hero-large.png"
+  ],
+  "/images/uploads/docuhide-complete.png": [
+    "/images/uploads/docuhide-complete.webp",
+    "/images/uploads/docuhide-complete.png"
+  ],
+  "/images/uploads/docuhide-lite.png": [
+    "/images/uploads/docuhide-lite.webp",
+    "/images/uploads/docuhide-lite.png"
+  ],
+  "/images/uploads/docuhide-milspec.png": [
+    "/images/uploads/docuhide-milspec.webp",
+    "/images/uploads/docuhide-milspec.png"
+  ],
+  "/images/uploads/icon-hero-large.png": [
+    "/images/uploads/icon-hero-large.webp",
+    "/images/uploads/icon-hero-large.png"
+  ]
+}

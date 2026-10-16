@@ -1,0 +1,91 @@
+---
+import { navigation } from '../../config/navigation';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="padding-block-42" data-watching="unseen">
+  <nav>
+    <div class="center container flex">
+      <a href="/" aria-label="Click to Navigate to Docuhide Homepage">
+        <picture class="nav-logo margin-inline-end-60">
+          <source
+            srcset="/images/logo-main.png"
+            media="(orientation: landscape)"
+            width="746"
+            height="140"
+          />
+          <img
+            src="/images/logo-main.png"
+            alt="Docuhide Navigation Logo"
+            width="746"
+            height="140"
+          />
+        </picture>
+      </a>
+      <ul
+        id="primary-nav"
+        data-collapsed="true"
+        aria-hidden="true"
+        class="center primary-navigation flex"
+        style="--flex-gap:1.5rem; letter-spacing:1px;"
+      >
+        {
+          navigation.primary.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="underline-nav-link"
+                aria-current={currentPath === link.href ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li data-view="phone-only">
+          <button
+            type="button"
+            class="btn"
+            data-type="pill-btn"
+            data-size="thin"
+            data-color="accent1"
+            aria-expanded="false"
+            aria-controls={navigation.cta.dialogId}
+            data-demo-trigger
+          >
+            {navigation.cta.label}
+          </button>
+        </li>
+      </ul>
+      <button
+        data-view="not-phone"
+        type="button"
+        class="btn"
+        data-type="pill-btn"
+        data-size="thin"
+        data-color="accent1"
+        aria-expanded="false"
+        aria-controls={navigation.cta.dialogId}
+        data-demo-trigger
+      >
+        {navigation.cta.label}
+      </button>
+      <button
+        aria-expanded="false"
+        class="btn margin-inline-start-8"
+        data-type="svg-btn"
+        aria-controls="primary-nav"
+        aria-label="Toggle Mobile Navigation Menu"
+      >
+        <svg viewBox="0 0 8 8" class="bars">
+          <line id="top" x1="1" y1="2" x2="7" y2="2"></line>
+          <line id="mid" x1="1" y1="4" x2="7" y2="4"></line>
+          <line id="bot" x1="1" y1="6" x2="7" y2="6"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+  <button class="nav-shade" name="close-navigation" aria-label="Close Navigation" type="button"
+  ></button>
+</header>

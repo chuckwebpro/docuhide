@@ -1,27 +1,29 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/ui/Section.astro';
-import Container from '../components/ui/Container.astro';
-import Heading from '../components/ui/Heading.astro';
-import Button from '../components/ui/Button.astro';
+import DocuHideLayout from '../layouts/DocuHideLayout.astro';
 import { navigation } from '../config/navigation';
 import { site } from '../config/site';
 ---
 
-<BaseLayout title="Page not found" noindex>
-  <Section background="base" spacing="lg">
-    <Container align="center" gap="md">
-      <p class="text-ink-muted text-sm font-semibold tracking-wide uppercase">Error 404</p>
-      <Heading level={1} size="xl">We couldn&rsquo;t find that page</Heading>
-      <p class="max-w-reading text-ink-muted">
+<DocuHideLayout
+  title="Page not found"
+  description="The page you requested is not available on Docuhide. Return to the home page or browse Overview and News."
+  noindex
+  interior
+  styles="interior"
+>
+  <main class="interior">
+    <section class="padding-block-120 container text-center">
+      <p class="fs-400 fw-medium margin-block-end-16">Error 404</p>
+      <h1 class="fs-700 fw-bold margin-block-end-24">We couldn&rsquo;t find that page</h1>
+      <p class="fs-500 max-width-60ch margin-inline-auto margin-block-end-32">
         The link may be out of date, or the page may have moved. Try one of these instead.
       </p>
 
-      <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+      <ul class="margin-block-end-32 flex flex-wrap justify-center gap-24">
         {
           navigation.primary.map((item) => (
             <li>
-              <a href={item.href ?? '/'} class="text-ink-brand inline-flex min-h-11 items-center">
+              <a href={item.href ?? '/'} class="fs-500">
                 {item.label}
               </a>
             </li>
@@ -29,12 +31,12 @@ import { site } from '../config/site';
         }
       </ul>
 
-      <div class="flex flex-wrap justify-center gap-3">
-        <Button href="/">Back to home</Button>
-        <Button href={`tel:${site.business.phoneHref}`} variant="secondary">
+      <div class="flex flex-wrap justify-center gap-16">
+        <a href="/" class="btn" data-type="pill-btn" data-color="accent1">Back to home</a>
+        <a href={`tel:${site.business.phoneHref}`} class="fs-500">
           Call {site.business.phone}
-        </Button>
+        </a>
       </div>
-    </Container>
-  </Section>
-</BaseLayout>
+    </section>
+  </main>
+</DocuHideLayout>

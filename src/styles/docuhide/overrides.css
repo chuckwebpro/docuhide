@@ -1,0 +1,141 @@
+/**
+ * DocuHide layout fixes — desktop parity at 1000px+ without relying on touch class alone.
+ */
+
+header .nav-logo {
+  opacity: 1;
+}
+
+/*
+ * Nav motion (live): slide-fade IN, fade-slide OUT.
+ * Open: transform leads, opacity follows. Close: opacity leads, transform follows.
+ * Stagger matches home.css; close uses reversed child order.
+ */
+header .primary-navigation > li {
+  transform: translateX(-50%);
+  opacity: 0;
+}
+
+header .primary-navigation[data-collapsed='false'] > li {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  /* slide-fade in */
+  transition:
+    transform 0.55s ease-out,
+    opacity 0.45s linear 0.12s;
+}
+
+header .primary-navigation[data-collapsed='false'] > li:nth-child(1) {
+  transition-delay: 0.2s, 0.32s;
+}
+header .primary-navigation[data-collapsed='false'] > li:nth-child(2) {
+  transition-delay: 0.35s, 0.47s;
+}
+header .primary-navigation[data-collapsed='false'] > li:nth-child(3) {
+  transition-delay: 0.5s, 0.62s;
+}
+header .primary-navigation[data-collapsed='false'] > li:nth-child(4) {
+  transition-delay: 0.65s, 0.77s;
+}
+header .primary-navigation[data-collapsed='false'] > li:nth-child(5) {
+  transition-delay: 0.8s, 0.92s;
+}
+header .primary-navigation[data-collapsed='false'] > li:nth-child(6) {
+  transition-delay: 1s, 1.12s;
+}
+
+header .primary-navigation[data-collapsed='true'] > li {
+  opacity: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+  /* fade-slide out */
+  transition:
+    opacity 0.4s linear,
+    transform 0.55s ease-in;
+}
+
+header .primary-navigation[data-collapsed='true'] > li:nth-child(1) {
+  transition-delay: 0.35s, 0.57s;
+}
+header .primary-navigation[data-collapsed='true'] > li:nth-child(2) {
+  transition-delay: 0.2s, 0.42s;
+}
+header .primary-navigation[data-collapsed='true'] > li:nth-child(3) {
+  transition-delay: 0.5s, 0.72s;
+}
+header .primary-navigation[data-collapsed='true'] > li:nth-child(4) {
+  transition-delay: 0.65s, 0.87s;
+}
+header .primary-navigation[data-collapsed='true'] > li:nth-child(5) {
+  transition-delay: 0.8s, 1.02s;
+}
+header .primary-navigation[data-collapsed='true'] > li:nth-child(6) {
+  transition-delay: 1s, 1.22s;
+}
+
+@media (min-width: 1000px) {
+  header .primary-navigation {
+    flex-direction: row;
+    position: static;
+    top: unset;
+    left: unset;
+    width: auto;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    padding-block-start: 0;
+    padding-inline-start: 0;
+    background: transparent;
+    z-index: 1;
+  }
+
+  header[data-watching='in-view'] .primary-navigation[data-collapsed='false'] > li {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  header nav .container.flex {
+    flex-wrap: nowrap;
+  }
+}
+
+/* HTML dialog uses boolean open; vendored CSS targets open="" */
+#popout-demo-form[open] {
+  animation: 1s demo-form-animation forwards;
+}
+
+/* Fixed header: keep section titles visible when scrolling into view */
+@media (min-width: 1000px) {
+  #our-products,
+  #redaction-products {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* Interior pages: light body under fixed header — dark nav text until scroll dark bar */
+html.docuhide-interior header .underline-nav-link,
+html.docuhide-interior header nav .btn[data-color='accent1'] {
+  color: var(--clr-dark-900);
+  border-color: var(--clr-dark-900);
+}
+
+html.docuhide-interior main .btn[data-color='accent1'] {
+  color: var(--clr-dark-900);
+  border-color: var(--clr-dark-900);
+}
+
+html.docuhide-interior main .btn[data-color='accent1']:hover {
+  color: var(--clr-light-900);
+  background-color: var(--clr-dark-900);
+  border-color: var(--clr-dark-900);
+}
+
+html.docuhide-interior.scrolling header .underline-nav-link {
+  color: var(--clr-light-900);
+}
+
+html.docuhide-interior.scrolling header nav .btn[data-color='accent1'] {
+  color: var(--clr-accent1-400);
+  border-color: currentColor;
+}

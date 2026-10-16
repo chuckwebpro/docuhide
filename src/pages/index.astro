@@ -1,127 +1,150 @@
 ---
-/**
- * Demo home page, assembled entirely from blocks so it doubles as a working
- * example and a build smoke test. `npm run setup` clears this per project.
- */
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/blocks/Hero.astro';
-import ServicesGrid from '../components/blocks/ServicesGrid.astro';
-import ProcessSteps from '../components/blocks/ProcessSteps.astro';
-import Stats from '../components/blocks/Stats.astro';
-import Testimonials from '../components/blocks/Testimonials.astro';
-import FAQ from '../components/blocks/FAQ.astro';
-import CTABanner from '../components/blocks/CTABanner.astro';
+import DocuHideLayout from '../layouts/DocuHideLayout.astro';
 import { site } from '../config/site';
 
-const faqs = [
-  {
-    question: 'Do you offer emergency callouts?',
-    answer: 'Yes — we cover emergencies around the clock, including weekends and holidays.',
-  },
-  {
-    question: 'Are you licensed and insured?',
-    answer: 'Fully licensed and insured. We can supply certificates on request before work starts.',
-  },
-  {
-    question: 'How quickly can you get here?',
-    answer: 'Typically within two hours across the metro area, and same-day everywhere else.',
-  },
-];
+const homeTitle = 'Docuhide - Best Redaction Software | First Role-Based Document Redaction';
 ---
 
-<BaseLayout faqs={faqs}>
-  <Hero
-    eyebrow={`${site.business.address.locality}, ${site.business.address.region}`}
-    title={site.tagline}
-    body={site.description}
-    bullets={[
-      'Licensed and insured',
-      'Upfront pricing, no surprises',
-      'Work guaranteed for 12 months',
-    ]}
-    actions={[
-      { label: 'Request a quote', href: '/contact/' },
-      { label: site.business.phone, href: `tel:${site.business.phoneHref}`, variant: 'secondary' },
-    ]}
-  />
+<DocuHideLayout title={homeTitle} titleExact description={site.description} styles="home">
+  <main>
+    <section
+      id="hero"
+      data-watching="unseen"
+      class="hero-section"
+      data-type="two-column-text-and-big-image"
+      style="--bannerImg: url(/images/banners/bg-hero.webp);"
+    >
+      <div class="center space-between padding-inline-24 margin-block-start-32 container flex">
+        <div class="text-wrapper">
+          <h1 class="fw-bold fs-900 highlight-strong padding-block-end-48">
+            Real Document<strong class="margin-block-start-8">Redaction</strong>
+          </h1>
+          <p class="fs-500 fw-medium padding-block-end-48">
+            Tamperproof role-based authorization and redaction. Complete document end-point
+            protection while at rest and in transit. Docuhide is the only redaction engine using
+            patent-pending technology that delivers your classified content without the threat of
+            theft or ransom. <br /><br /><strong
+              >This is NOT masking, this is real redaction.</strong
+            >
+            <br /><br />
+            The need for developing newer adaptive document security with safer standards that protects
+            individuals and organizations from digital leakage, stolen trade secrets, industrial espionage,
+            and personal and financial record theft has been left wanting until now.
+          </p>
+          <button
+            class="btn video-toggle"
+            type="button"
+            data-type="pill-btn"
+            data-color="accent1"
+            data-video-id="Bhtfd6MS0BU">Docuhide Information Video</button
+          >
+        </div>
+        <div class="hero-images">
+          <picture>
+            <source srcset="/images/uploads/icon-hero-large.webp" type="image/webp" />
+            <img
+              src="/images/uploads/icon-hero-large.png"
+              data-active=""
+              width="577"
+              height="672"
+              class="hero-image"
+              alt="Embellished Docuhide Logo slightly rotated."
+            />
+          </picture>
+          <picture>
+            <source srcset="/images/uploads/doc-hero-large.webp" type="image/webp" />
+            <img
+              src="/images/uploads/doc-hero-large.png"
+              width="577"
+              height="672"
+              class="hero-image"
+              alt="A Classified Document that has been redacted."
+            />
+          </picture>
+        </div>
+      </div>
+    </section>
 
-  <ServicesGrid
-    eyebrow="Services"
-    title="What we do"
-    body="Straightforward work across residential and commercial properties."
-    items={[
-      {
-        icon: 'lucide:wrench',
-        title: 'Repairs & Maintenance',
-        body: 'Same-week appointments for the problems that cannot wait.',
-        href: '/services/repairs/',
-      },
-      {
-        icon: 'lucide:hammer',
-        title: 'Installations',
-        body: 'New systems specified, fitted, and tested to code.',
-        href: '/services/installations/',
-      },
-      {
-        icon: 'lucide:clipboard-check',
-        title: 'Service Contracts',
-        body: 'Scheduled upkeep with priority response when something goes wrong.',
-        href: '/services/contracts/',
-      },
-    ]}
-  />
+    <section id="our-products" data-watching="unseen" class="title-cardset-link">
+      <div class="container text-center">
+        <h2 class="fw-bold fs-900 padding-block-60 text-center">About Our Redaction Products</h2>
+        <ul
+          class="bulletless margin-block-start-16 margin-block-end-60 stack-below-lg flex text-left"
+          style="--flex-gap:1rem;"
+        >
+          <li class="card bottom-right-gradient-ring" data-type="product">
+            <a href="/#" class="fs-500 padding-block-24 padding-inline-48">
+              <img
+                src="/images/uploads/docuhide-complete.png"
+                alt="Docuhide Complete Logo"
+                class="margin-block-end-32"
+                width="486"
+                height="192"
+              />
+              <p class="fw-medium margin-block-end-32">
+                All Office Documents. HIPAA, SOX, LEGAL Compliant
+              </p>
+            </a>
+          </li>
+          <li class="card bottom-right-gradient-ring" data-type="product">
+            <a href="/#" class="fs-500 padding-block-24 padding-inline-48">
+              <img
+                src="/images/uploads/docuhide-milspec.png"
+                alt="Docuhide Milspec Logo"
+                class="margin-block-end-32"
+                width="486"
+                height="192"
+              />
+              <p class="fw-medium margin-block-end-32">
+                All Office Documents. DOD, DOJ Military Grade Encryption.
+              </p>
+            </a>
+          </li>
+          <li class="card bottom-right-gradient-ring" data-type="product">
+            <a href="/#" class="fs-500 padding-block-24 padding-inline-48">
+              <img
+                src="/images/uploads/docuhide-lite.png"
+                alt="Docuhide Lite Logo"
+                class="margin-block-end-32"
+                width="486"
+                height="192"
+              />
+              <p class="fw-medium margin-block-end-32">
+                Word & Email Version. Ideal for Mobile & Tablet Users.
+              </p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-  <ProcessSteps
-    background="muted"
-    eyebrow="Process"
-    title="How it works"
-    items={[
-      { title: 'Get in touch', body: 'Call or send a message describing the problem.' },
-      { title: 'We assess', body: 'A quick look in person, or from photos where that works.' },
-      { title: 'Fixed quote', body: 'Agreed before any work begins. No surprises later.' },
-      { title: 'Work completed', body: 'Guaranteed for twelve months from the day we finish.' },
-    ]}
-  />
-
-  <Stats
-    title="By the numbers"
-    items={[
-      { value: '18 yrs', label: 'Serving the region' },
-      { value: '4.9/5', label: 'Average review score' },
-      { value: '2 hrs', label: 'Typical callout response' },
-    ]}
-  />
-
-  <Testimonials
-    eyebrow="Reviews"
-    title="What clients say"
-    items={[
-      {
-        quote: 'Turned up when they said they would and fixed it on the first visit.',
-        name: 'Dana R.',
-        role: 'Homeowner',
-        rating: 5,
-      },
-      {
-        quote: 'Clear pricing, no upselling, and they cleaned up after themselves.',
-        name: 'Mark T.',
-        role: 'Office manager',
-        rating: 5,
-      },
-      {
-        quote: 'They handle all four of our sites now. Easiest contractor we work with.',
-        name: 'Priya S.',
-        role: 'Facilities lead',
-        rating: 5,
-      },
-    ]}
-  />
-
-  <FAQ eyebrow="FAQ" title="Common questions" items={faqs} schema={false} />
-
-  <CTABanner
-    title="Ready to get started?"
-    body="Tell us what you need and we will come back to you the same day."
-    actions={[{ label: 'Request a quote', href: '/contact/' }]}
-  />
-</BaseLayout>
+    <section
+      id="redaction-products"
+      data-watching="unseen"
+      class="bottom-right-gradient-ring enlarging-text-image-panel"
+    >
+      <div class="center stack-below-lg container flex">
+        <picture>
+          <source srcset="/images/uploads/big-box.webp" type="image/webp" />
+          <img src="/images/uploads/big-box.png" alt="" width="556" height="736" />
+        </picture>
+        <div class="text-wrapper">
+          <h2 class="fw-bold fs-900 padding-block-32">
+            Document Protection At Rest and In-transit
+          </h2>
+          <div class="fw-medium fs-500 margin-block-end-32">
+            <p>
+              Docuhide eleminates the threat of tokenization forgery completely by encrypting the
+              master (parent) document first and ensuring all documents whether imported or newly
+              created are secure at rest and in transit.
+            </p>
+            <p>
+              Since redacted areas of a document are role-based assigned, security continues by
+              dynamically issuing a private key to every document created and to each recipient.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</DocuHideLayout>

@@ -1,0 +1,103 @@
+---
+import type { GetStaticPaths } from 'astro';
+import DocuHideLayout from '../../layouts/DocuHideLayout.astro';
+import { newsCards } from '../../config/news-cards';
+import articles from '../../data/news/articles.json';
+
+export const getStaticPaths = (() => {
+  return articles.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+interface ArticleEntry {
+  slug: string;
+  title: string;
+  description: string;
+  publishedDate: string;
+  heroImage: string;
+  bodyHtml: string;
+}
+
+const { entry } = Astro.props as { entry: ArticleEntry };
+const slug = entry.slug;
+
+const card = newsCards.find((c) => c.slug === slug);
+const heroBanner = card?.banner ?? entry.heroImage ?? '';
+const pageTitle = `News - ${entry.title}`;
+const otherPosts = newsCards.filter((c) => c.slug !== slug);
+
+/** Live article header uses MM/DD/YYYY regardless of news index card labels. */
+const articleDateLine = `${new Date(entry.publishedDate).toLocaleDateString('en-US', {
+  month: '2-digit',
+  day: '2-digit',
+  year: 'numeric',
+})} Docuhide : docuhide.com`;
+
+const bodyHtml = entry.bodyHtml.replace(
+  /<div unselectable="on" class="rrHandle[^"]*"[^>]*>\s*<\/div>/gi,
+  '',
+);
+---
+
+<DocuHideLayout
+  title={pageTitle}
+  titleExact
+  description={entry.description}
+  image={heroBanner || undefined}
+  imageAlt={entry.title}
+  type="article"
+  interior
+  styles="blog"
+  publishedTime={new Date(entry.publishedDate).toISOString()}
+  breadcrumbs={[
+    { name: 'Home', href: '/' },
+    { name: 'News', href: '/news/' },
+    { name: entry.title, href: `/article/${slug}/` },
+  ]}
+  articleSchema={{
+    headline: entry.title,
+    description: entry.description,
+    datePublished: new Date(entry.publishedDate).toISOString(),
+    image: heroBanner || entry.heroImage,
+  }}
+>
+  <main class="interior" data-type="nav-space">
+    {
+      heroBanner && (
+        <section id="articleHero" class="article-hero">
+          <picture>
+            <source media="(orientation: landscape)" srcset={heroBanner} />
+            <img src={heroBanner} alt="" />
+          </picture>
+        </section>
+      )
+    }
+    <section class="article-container">
+      <div class="container" style="display:block;">
+        <p id="articleDate" class="article-date">{articleDateLine}</p>
+        <h1 id="articleTitle">{entry.title}</h1>
+      </div>
+      <div class="container">
+        <article id="articleContent" class="article-content" set:html={bodyHtml} />
+        <aside>
+          <div class="aside-container">
+            <h2>
+              <a href="/news/" style="font-size:inherit; text-decoration:none;">Other Posts</a>
+            </h2>
+            <ul id="newsAside_otherPosts">
+              {
+                otherPosts.map((post) => (
+                  <li>
+                    <a href={`/article/${post.slug}/`}>{post.title}</a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</DocuHideLayout>
