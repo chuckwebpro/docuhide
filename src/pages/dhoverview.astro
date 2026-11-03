@@ -1,0 +1,430 @@
+---
+import { site } from '../config/site';
+
+const recaptchaSiteKey = site.recaptchaSiteKey;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+    <meta name="googlebot" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Request access</title>
+    <meta name="description" content="Request access to continue." />
+    <link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+    <script is:inline>
+      if (new URLSearchParams(location.search).has('access')) {
+        document.documentElement.classList.add('from-link');
+      }
+    </script>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0c0d0b;
+        --surface: #151713;
+        --line: #2f3429;
+        --fg: #eef0e8;
+        --muted: #a6ac9a;
+        --accent: #daf34f;
+        --ink: #06121f;
+        --bad: #ffb4b4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 17px;
+        line-height: 1.5;
+        padding: max(24px, env(safe-area-inset-top)) 16px 48px;
+      }
+      .wrap {
+        max-width: 440px;
+        margin: 0 auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 22px;
+        margin: 0 0 28px;
+      }
+      h1 {
+        font-size: 32px;
+        line-height: 1.15;
+        margin: 0 0 8px;
+      }
+      .lead {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+      form,
+      .panel {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        padding: 22px;
+      }
+      .names {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 14px;
+      }
+      input {
+        font: inherit;
+        color: var(--fg);
+        background: var(--bg);
+        border: 1px solid var(--line);
+        padding: 12px 14px;
+        min-height: 48px;
+        width: 100%;
+      }
+      button {
+        font: inherit;
+        font-weight: 700;
+        min-height: 48px;
+        border: 0;
+        background: var(--accent);
+        color: var(--ink);
+        cursor: pointer;
+        padding: 12px 16px;
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .error {
+        margin: 0 0 16px;
+        color: var(--bad);
+      }
+      .error:empty {
+        display: none;
+      }
+      .hp {
+        position: absolute;
+        left: -10000px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+      #openPanel,
+      #sentPanel {
+        display: none;
+      }
+      html.from-link #lead,
+      html.from-link #requestPanel {
+        display: none;
+      }
+      html.from-link #openPanel {
+        display: flex;
+      }
+      #gate.is-sent #requestPanel,
+      #gate.is-sent #openPanel {
+        display: none;
+      }
+      #gate.is-sent #sentPanel {
+        display: flex;
+      }
+      #gate.is-request #requestPanel {
+        display: flex;
+      }
+      #gate.is-request #openPanel,
+      #gate.is-request #sentPanel {
+        display: none;
+      }
+      @media (max-width: 520px) {
+        .names {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <p class="brand">
+        <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true">
+          <path
+            d="M56 27V18L32 4 8 18v28l24 14 24-14v-6"
+            fill="none"
+            stroke="#8d9384"
+            stroke-width="6"
+            stroke-linejoin="miter"></path>
+          <path
+            d="M20 32l9 9 17-18"
+            fill="none"
+            stroke="#daf34f"
+            stroke-width="7"
+            stroke-linejoin="miter"></path>
+        </svg>
+        Docuhide
+      </p>
+      <h1>Request access</h1>
+      <p class="lead" id="lead">Tell us who you are. We will email a one-time link.</p>
+      <p id="error" class="error" role="alert"></p>
+      <div id="gate">
+        <form id="requestPanel" method="post" action="/dhoverview/">
+          <div class="names">
+            <label>
+              First name
+              <input
+                id="first-name"
+                name="first_name"
+                autocomplete="given-name"
+                required
+                maxlength="80"
+              />
+            </label>
+            <label>
+              Last name
+              <input
+                id="last-name"
+                name="last_name"
+                autocomplete="family-name"
+                required
+                maxlength="80"
+              />
+            </label>
+          </div>
+          <label>
+            Company <span style="color: var(--muted)">(optional)</span>
+            <input id="company" name="company" autocomplete="organization" maxlength="120" />
+          </label>
+          <label>
+            Phone
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required maxlength="40" />
+          </label>
+          <label>
+            Email
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="254"
+            />
+          </label>
+          <div class="hp" aria-hidden="true">
+            <label>
+              Company website
+              <input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+            </label>
+          </div>
+          <button type="submit" id="requestButton">Email me a link</button>
+        </form>
+        <form id="openPanel" class="panel" method="post" action="/dhoverview/">
+          <p class="lead" style="margin: 0">This link opens the overview once.</p>
+          <button type="submit" id="openButton">Open overview</button>
+        </form>
+        <div id="sentPanel" class="panel">
+          <p id="sentCopy" style="margin: 0">Check your email for a one-time link.</p>
+        </div>
+      </div>
+      <noscript>
+        <p class="lead">JavaScript is required to request access and open this page.</p>
+      </noscript>
+    </main>
+    {
+      recaptchaSiteKey && (
+        <>
+          <script
+            is:inline
+            src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}
+          />
+          <div id="recaptcha-config" hidden data-sitekey={recaptchaSiteKey} />
+        </>
+      )
+    }
+    <script is:inline>
+      (function () {
+        const gate = document.getElementById('gate');
+        const requestPanel = document.getElementById('requestPanel');
+        const errorEl = document.getElementById('error');
+        const lead = document.getElementById('lead');
+        const headers = { 'X-Requested-With': 'dhoverview' };
+        const siteKey = document.getElementById('recaptcha-config')?.dataset.sitekey || '';
+        const access = (new URLSearchParams(location.search).get('access') || '').trim();
+
+        function setError(message) {
+          errorEl.textContent = message || '';
+        }
+
+        function showRequest(message) {
+          document.documentElement.classList.remove('from-link');
+          gate.classList.remove('is-sent');
+          gate.classList.add('is-request');
+          lead.hidden = false;
+          setError(message);
+          const url = new URL(location.href);
+          if (url.searchParams.has('access')) {
+            url.searchParams.delete('access');
+            history.replaceState({}, '', url.pathname + url.search);
+          }
+        }
+
+        function recaptchaToken() {
+          return new Promise(function (resolve, reject) {
+            const started = Date.now();
+            const tick = function () {
+              if (window.grecaptcha?.execute) {
+                window.grecaptcha.ready(function () {
+                  window.grecaptcha
+                    .execute(siteKey, { action: 'dhoverview' })
+                    .then(resolve)
+                    .catch(reject);
+                });
+                return;
+              }
+              if (Date.now() - started > 8000) {
+                reject(new Error('recaptcha-timeout'));
+                return;
+              }
+              requestAnimationFrame(tick);
+            };
+            tick();
+          });
+        }
+
+        function showOverview(html) {
+          if (!html || html.indexOf('id="doc"') === -1) {
+            throw new Error('Overview response was empty.');
+          }
+          const url = new URL(location.href);
+          url.searchParams.delete('access');
+          history.replaceState({}, '', url.pathname + url.search);
+          const parsed = new DOMParser().parseFromString(html, 'text/html');
+          document.head.replaceWith(parsed.head);
+          document.body.replaceWith(parsed.body);
+          document.querySelectorAll('script').forEach(function (old) {
+            const script = document.createElement('script');
+            Array.prototype.forEach.call(old.attributes, function (attr) {
+              script.setAttribute(attr.name, attr.value);
+            });
+            script.text = old.text;
+            old.replaceWith(script);
+          });
+        }
+
+        async function restoreSession() {
+          try {
+            const res = await fetch('/api/dhoverview-content.php', {
+              credentials: 'same-origin',
+              cache: 'no-store',
+              headers,
+            });
+            const type = res.headers.get('content-type') || '';
+            if (res.ok && type.indexOf('text/html') !== -1) {
+              showOverview(await res.text());
+            }
+          } catch (err) {
+            /* The request form stays available when the session check cannot run. */
+          }
+        }
+
+        document.getElementById('openPanel').addEventListener('submit', async function (event) {
+          event.preventDefault();
+          const button = document.getElementById('openButton');
+          button.disabled = true;
+          setError('');
+          try {
+            const res = await fetch('/api/dhoverview-unlock.php', {
+              method: 'POST',
+              credentials: 'same-origin',
+              cache: 'no-store',
+              headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
+              body: JSON.stringify({ access: access }),
+            });
+            const data = await res.json().catch(function () {
+              return {};
+            });
+            if (res.ok && data.ok && data.html) {
+              try {
+                showOverview(data.html);
+              } catch (writeErr) {
+                setError('Refresh the page to continue.');
+              }
+              return;
+            }
+            showRequest(data.error || 'This link is invalid or has already been used.');
+          } catch (err) {
+            showRequest('Could not open the overview. Please try the link again.');
+          } finally {
+            button.disabled = false;
+          }
+        });
+
+        requestPanel.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          const button = document.getElementById('requestButton');
+          button.disabled = true;
+          setError('');
+          let token = '';
+          try {
+            token = await recaptchaToken();
+          } catch (err) {
+            setError('Verification failed. Please refresh and try again.');
+            button.disabled = false;
+            return;
+          }
+          try {
+            const res = await fetch('/api/dhoverview-request.php', {
+              method: 'POST',
+              credentials: 'same-origin',
+              cache: 'no-store',
+              headers: Object.assign({ 'Content-Type': 'application/json' }, headers),
+              body: JSON.stringify({
+                first_name: document.getElementById('first-name').value,
+                last_name: document.getElementById('last-name').value,
+                company: document.getElementById('company').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                _gotcha: document.getElementById('gotcha').value,
+                recaptcha: token,
+              }),
+            });
+            const data = await res.json().catch(function () {
+              return {};
+            });
+            if (!res.ok || !data.ok) {
+              setError(data.error || 'Could not send your access link. Please try again.');
+              return;
+            }
+            const email = document.getElementById('email').value.trim();
+            document.getElementById('sentCopy').textContent =
+              'We sent a one-time link to ' + email + '. It works once.';
+            lead.hidden = true;
+            gate.classList.add('is-sent');
+            gate.classList.remove('is-request');
+            document.documentElement.classList.remove('from-link');
+          } catch (err) {
+            setError('Could not send your access link. Please try again.');
+          } finally {
+            button.disabled = false;
+          }
+        });
+
+        restoreSession();
+      })();
+    </script>
+  </body>
+</html>

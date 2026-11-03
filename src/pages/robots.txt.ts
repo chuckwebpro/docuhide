@@ -8,6 +8,9 @@ Allow: /
 Disallow: /admin/
 Disallow: /thank-you/
 Disallow: /styleguide/
+Disallow: /dhoverview
+Disallow: /api/dhoverview
+Disallow: /api/private
 
 Sitemap: ${origin}/sitemap.xml
 `;

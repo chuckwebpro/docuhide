@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 import tailwindcss from '@tailwindcss/vite';
 
-const EXCLUDED_FROM_SITEMAP = ['/thank-you/', '/styleguide/'];
+const EXCLUDED_FROM_SITEMAP = ['/thank-you/', '/styleguide/', '/dhoverview/'];
 
 /** Set SITE_URL in CI for staging (e.g. https://site.docuhide.com). */
 const SITE_URL = (process.env.SITE_URL || 'https://www.docuhide.com').replace(/\/$/, '');

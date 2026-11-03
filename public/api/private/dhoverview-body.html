@@ -1,0 +1,1628 @@
+<title>DocuHide Competitive Model</title>
+<meta name="claude:viewport-fit-sides" content="cover" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Sora:wght@500;700;800&display=swap"
+/>
+<style>
+  /* Layout concept: a briefing console. One parent document is shown being cut into per-recipient children (the hero demo), then a rival matrix, a segment explorer, and a quantum timeline. Single column, wide demo panel. */
+  /* BRAND TOKENS: docuhide.com could not be read from the build environment, so these six values are a placeholder navy and blue palette. Replace --bg, --surface, --line, --fg, --muted and --accent (dark and light blocks) with the site's exact hex values. */
+  :root {
+    --display: 'Sora', 'Segoe UI', system-ui, sans-serif;
+    --body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', Consolas, 'Cascadia Mono', monospace;
+    --bg: #0c0d0b;
+    --surface: #151713;
+    --surface2: #1d201a;
+    --line: #2f3429;
+    --fg: #eef0e8;
+    --muted: #a6ac9a;
+    --accent: #daf34f;
+    --accent-text: #daf34f;
+    --accent-ink: #06121f;
+    --steel: #8d9384;
+    --ok: #4fd08a;
+    --warn: #f0b54a;
+    --bad: #ff8585;
+    --bar: #000000;
+    --bar-ink: #6b705f;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme='dark']) {
+      --bg: #f4f5ef;
+      --surface: #ffffff;
+      --surface2: #e8eadf;
+      --line: #cfd3c2;
+      --fg: #121410;
+      --muted: #575d4b;
+      --accent: #daf34f;
+      --accent-text: #4d5f00;
+      --accent-ink: #06121f;
+      --steel: #4b5043;
+      --ok: #146c3f;
+      --warn: #8a5a00;
+      --bad: #b3261e;
+      --bar: #121410;
+      --bar-ink: #8a8f7d;
+      color-scheme: light;
+    }
+  }
+  :root[data-theme='light'] {
+    --bg: #f4f5ef;
+    --surface: #ffffff;
+    --surface2: #e8eadf;
+    --line: #cfd3c2;
+    --fg: #121410;
+    --muted: #575d4b;
+    --accent: #daf34f;
+    --accent-text: #4d5f00;
+    --accent-ink: #06121f;
+    --steel: #4b5043;
+    --ok: #146c3f;
+    --warn: #8a5a00;
+    --bad: #b3261e;
+    --bar: #121410;
+    --bar-ink: #8a8f7d;
+    color-scheme: light;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.55;
+    margin: 0;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 64px;
+  }
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--display);
+    text-wrap: balance;
+    margin: 0;
+    line-height: 1.12;
+  }
+  h2 {
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 600;
+  }
+  p {
+    margin: 0;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+  .lead {
+    color: var(--muted);
+    max-width: 68ch;
+    font-size: 18px;
+  }
+  section {
+    padding-top: 72px;
+  }
+  .sec-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 3px solid var(--accent-text);
+    outline-offset: 2px;
+  }
+
+  /* top bar */
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-block: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 6px 20px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .nav a:hover {
+    color: var(--fg);
+  }
+  .theme {
+    border: 1px solid var(--line);
+    background: transparent;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  /* hero */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 40px;
+    padding-block: 56px 8px;
+    align-items: end;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 6vw, 60px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent-text);
+  }
+  .hero .lead {
+    margin-top: 20px;
+  }
+  .facts {
+    display: grid;
+    gap: 0;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .facts div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .facts div:last-child {
+    border-bottom: 0;
+  }
+  .facts span:first-child {
+    color: var(--muted);
+  }
+  .facts span:last-child {
+    font-family: var(--mono);
+    font-size: 14px;
+    text-align: right;
+  }
+
+  /* demo */
+  .demo {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  }
+  .ctrl {
+    padding: 22px;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    background: var(--surface2);
+  }
+  .ctrl h3 {
+    font-size: 12px;
+    font-family: var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .seg {
+    display: grid;
+    gap: 8px;
+  }
+  .seg button {
+    text-align: left;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+  }
+  .seg button small {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .seg button[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .seg button[aria-pressed='true'] small {
+    color: var(--accent-ink);
+  }
+  .mode {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+  .tok {
+    display: block;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--warn);
+    border: 1px dashed var(--warn);
+    padding: 3px 8px;
+    word-break: break-all;
+  }
+  .mode button {
+    border: 0;
+    background: var(--surface);
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+  .mode button + button {
+    border-left: 1px solid var(--line);
+  }
+  .mode button[aria-pressed='true'] {
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stat {
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    background: var(--surface);
+  }
+  .stat b {
+    display: block;
+    font-family: var(--display);
+    font-size: 26px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat span {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .page {
+    padding: 28px;
+    min-width: 0;
+  }
+  .page-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 18px;
+  }
+  .doc {
+    font-family: var(--body);
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ln {
+    padding: 3px 0;
+    min-height: 29px;
+  }
+  .ln.head {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 19px;
+    padding-top: 10px;
+  }
+  .bar {
+    display: block;
+    background: var(--bar);
+    color: var(--bar-ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    user-select: none;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 0 6px;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+  .note {
+    margin-top: 18px;
+    padding: 12px 14px;
+    border: 1px dashed var(--line);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .note b {
+    color: var(--fg);
+  }
+  .keyline {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ok);
+    word-break: break-all;
+  }
+
+  /* matrix */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .chip {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 15px;
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+  .tw {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 760px;
+    font-size: 15px;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    background: var(--surface2);
+  }
+  tr:last-child td {
+    border-bottom: 0;
+  }
+  tr.sel td {
+    background: var(--surface2);
+  }
+  tr.dh td {
+    border-top: 2px solid var(--accent-text);
+  }
+  .v {
+    display: inline-flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .v i {
+    font-style: normal;
+    font-family: var(--mono);
+    font-weight: 500;
+    min-width: 1.2em;
+  }
+  .v.unv i {
+    color: var(--warn);
+  }
+  .v.no i {
+    color: var(--bad);
+  }
+  .v.part i {
+    color: var(--warn);
+  }
+  .v.yes i {
+    color: var(--ok);
+  }
+  .v.unk i {
+    color: var(--muted);
+  }
+  .rowname {
+    font-weight: 600;
+  }
+  .detail {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+  .card ul {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--muted);
+  }
+  .card ul b {
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .lbl {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .cmp td:first-child {
+    white-space: normal;
+    min-width: 190px;
+  }
+  .cmp td {
+    white-space: normal;
+    min-width: 240px;
+  }
+  .cmp td:first-child {
+    font-weight: 600;
+  }
+  .srcs {
+    margin: 18px 0 0;
+    padding-left: 20px;
+    color: var(--muted);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .srcs a {
+    color: var(--accent-text);
+  }
+  /* segments */
+  .segwrap {
+    display: grid;
+    grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .seglist {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--line);
+  }
+  .seglist button {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 16px;
+  }
+  .seglist button:last-child {
+    border-bottom: 0;
+  }
+  .seglist button[aria-selected='true'] {
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+  .segbody {
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .pill {
+    font-family: var(--mono);
+    font-size: 12px;
+    border: 1px solid var(--accent-text);
+    color: var(--accent-text);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .two {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .two h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .two p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  /* quantum */
+  .tl {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .tl > div {
+    padding: 22px;
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  .tl > div:last-child {
+    border-right: 0;
+  }
+  .tl .yr {
+    font-family: var(--display);
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--accent-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .tl p {
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .tl .mine {
+    background: var(--surface2);
+  }
+  .compare {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .fine {
+    margin-top: 44px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .demo,
+    .segwrap {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .ctrl,
+    .seglist {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .tl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .tl > div:nth-child(2) {
+      border-right: 0;
+    }
+    .tl > div:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--line);
+    }
+    .detail,
+    .two,
+    .compare {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 64 64" width="34" height="34" aria-hidden="true">
+        <path
+          d="M56 27V18L32 4 8 18v28l24 14 24-14v-6"
+          fill="none"
+          stroke="var(--steel)"
+          stroke-width="6"
+          stroke-linejoin="miter"
+        />
+        <path
+          d="M20 32l9 9 17-18"
+          fill="none"
+          stroke="var(--accent)"
+          stroke-width="7"
+          stroke-linejoin="miter"
+        /></svg
+      ><span>Docuhide</span>
+    </div>
+    <nav class="nav" aria-label="Sections">
+      <a href="#demo">Live demo</a><a href="#rivals">Rivals</a><a href="#docusign">DocuSign</a
+      ><a href="#segments">Who benefits</a><a href="#quantum">Post-quantum</a>
+    </nav>
+    <button
+      class="theme"
+      id="themeBtn"
+      type="button"
+      aria-label="Switch between light and dark theme"
+    >
+      Theme
+    </button>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">
+        Patented document protection &middot; U.S. Application No. 18/776,909
+      </div>
+      <h1 style="margin-top: 14px">
+        One document. A different, <em>encrypted</em> copy for every reader.
+      </h1>
+      <p class="lead">
+        DocuHide takes a single parent document and generates a child for each recipient. Each child
+        holds only what that recipient is cleared to see, the removed content leaves no trace, and
+        each copy is encrypted for its own reader. Access can be cut off for one person without
+        touching anyone else.
+      </p>
+    </div>
+    <div class="facts" role="list">
+      <div role="listitem"><span>Concept diagrammed</span><span>December 1999</span></div>
+      <div role="listitem"><span>Inventor</span><span>Ben Warshaw</span></div>
+      <div role="listitem"><span>Removal method</span><span>Content deleted, not masked</span></div>
+      <div role="listitem"><span>Key design</span><span>ML-KEM and ML-DSA</span></div>
+      <div role="listitem"><span>Patented</span><span>October 2026</span></div>
+    </div>
+  </div>
+
+  <section id="demo">
+    <div class="sec-head">
+      <div class="eyebrow">Live demo</div>
+      <h2>Cut one parent into children</h2>
+      <p class="lead">
+        Pick a recipient and a method. Black-bar redaction keeps the page shape and marks every cut.
+        Tokenization, the approach IBM describes, swaps each cut for a replacement token that maps
+        back to the original. A DocuHide child closes the gaps and substitutes nothing, so there is
+        no bar, token or mapping to follow. The memo is an invented example.
+      </p>
+    </div>
+    <div class="demo">
+      <div class="ctrl">
+        <div>
+          <h3>Recipient</h3>
+          <div class="seg" id="recips"></div>
+        </div>
+        <div>
+          <h3>Method</h3>
+          <div class="mode" id="modes">
+            <button type="button" data-m="conv" aria-pressed="false">Black bars</button>
+            <button type="button" data-m="tok" aria-pressed="false">Tokenized</button>
+            <button type="button" data-m="dh" aria-pressed="true">DocuHide</button>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b id="sCut">0</b><span>sections removed</span></div>
+          <div class="stat"><b id="sTrace">0</b><span>traces left behind</span></div>
+        </div>
+      </div>
+      <div class="page" aria-live="polite">
+        <div class="page-head"><span id="pgTitle">Parent memo</span><span id="pgFor"></span></div>
+        <div class="doc" id="doc"></div>
+        <div class="note" id="demoNote"></div>
+        <div class="keyline" id="keyline"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rivals">
+    <div class="sec-head">
+      <div class="eyebrow">Competitive model</div>
+      <h2>Where each rival stops short</h2>
+      <p class="lead">
+        Select a competitor to see its gaps beside DocuHide. Status marks: Yes, Partial, No, and Not
+        documented where I could not confirm it from public sources.
+      </p>
+    </div>
+    <div class="chips" id="rivalChips" role="group" aria-label="Competitor"></div>
+    <div class="tw"><table id="matrix"></table></div>
+    <div class="detail" id="rivalDetail"></div>
+  </section>
+
+  <section id="docusign">
+    <div class="sec-head">
+      <div class="eyebrow">DocuSign</div>
+      <h2>Containment, not convenience</h2>
+      <p class="lead">
+        DocuSign proves who signed what and when. DocuHide controls what each reader can see inside
+        the document, before and after signing. DocuSign controls which documents a recipient sees
+        in an envelope. DocuHide controls what a recipient sees within a document.
+      </p>
+    </div>
+    <div class="tw cmp">
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>DocuSign</th>
+            <th>DocuHide</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Electronic signature and legal validity</td>
+            <td>
+              <span class="v yes"
+                ><i>&#10003;</i
+                ><span
+                  >Yes. Qualified trust service provider on the French Trusted List, with qualified
+                  signatures and timestamps</span
+                ></span
+              >
+            </td>
+            <td>
+              <span class="v unk"
+                ><i>?</i
+                ><span>Not described as a signing platform in the documents reviewed</span></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>What each recipient sees</td>
+            <td>
+              <span class="v part"
+                ><i>~</i><span>Which documents in an envelope, set by an administrator</span></span
+              >
+            </td>
+            <td>
+              <span class="v yes"
+                ><i>&#10003;</i
+                ><span
+                  >Which content within a document, by recipient trust profile (patent claims)</span
+                ></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Removal leaves no trace</td>
+            <td>
+              <span class="v unk"><i>?</i><span>Not found in its published materials</span></span>
+            </td>
+            <td>
+              <span class="v yes"
+                ><i>&#10003;</i
+                ><span>Page reflows and whitespace is reclaimed (claims 1 and 3)</span></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>One encrypted copy per recipient</td>
+            <td>
+              <span class="v unk"
+                ><i>?</i><span>Not found for per-recipient content copies</span></span
+              >
+            </td>
+            <td>
+              <span class="v yes"
+                ><i>&#10003;</i
+                ><span
+                  >Each child is encrypted for its own recipient (design and claims)</span
+                ></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Tamper evidence</td>
+            <td>
+              <span class="v yes"
+                ><i>&#10003;</i
+                ><span>Completed PDFs carry a digital signature (RSA-4096 today)</span></span
+              >
+            </td>
+            <td>
+              <span class="v unv"
+                ><i>*</i
+                ><span
+                  >Described in the overview (SHAKE256 integrity check). Not in the claims
+                  reviewed</span
+                ></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Post-quantum cryptography</td>
+            <td>
+              <span class="v part"
+                ><i>~</i><span>ML-DSA support started. Migration dates due in 2026</span></span
+              >
+            </td>
+            <td>
+              <span class="v part"
+                ><i>~</i
+                ><span>ML-KEM and ML-DSA in the design. Not recited in the claims</span></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Independent compliance audits</td>
+            <td>
+              <span class="v yes"
+                ><i>&#10003;</i><span>SOC 2 Type II, ISO 27001, FedRAMP, DoD IL4</span></span
+              >
+            </td>
+            <td>
+              <span class="v no"
+                ><i>&#10007;</i
+                ><span
+                  >None yet. The redaction engine is not built, so there is nothing to audit</span
+                ></span
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Self-locking on breach, decoys, offline integrity check</td>
+            <td>
+              <span class="v unk"><i>?</i><span>Not found in its published materials</span></span>
+            </td>
+            <td>
+              <span class="v unv"
+                ><i>*</i
+                ><span
+                  >Described in the overview. Not in the claims reviewed. Confirm before
+                  publishing</span
+                ></span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small" style="margin-top: 10px">
+      Marks: &#10003; yes, ~ partial, &#10007; no, ? not found in public sources, * described by
+      DocuHide but not confirmed in the patent claims I reviewed.
+    </p>
+    <div class="detail">
+      <div class="card">
+        <div class="lbl">Where DocuHide leads</div>
+        <ul>
+          <li>
+            <b>Content-level control.</b> Each reader gets a different, encrypted version of the
+            same document, and cut content leaves no trace.
+          </li>
+          <li>
+            <b>After signature.</b> Revocation, time limits and print and copy rules apply per
+            recipient to the child they hold.
+          </li>
+          <li>
+            <b>Leak attribution.</b> A leaked copy matches one recipient's version. Attorney
+            confirmation still needed.
+          </li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="lbl">Where DocuSign leads today</div>
+        <ul>
+          <li>
+            <b>Installed base and workflow.</b> It is the agreement standard, with integrations
+            DocuHide does not have.
+          </li>
+          <li>
+            <b>Audited trust.</b> Independent attestations and government authorizations that take
+            years to earn.
+          </li>
+          <li><b>A shipping product.</b> DocuHide's redaction engine is not built yet.</li>
+        </ul>
+      </div>
+    </div>
+    <p
+      class="note"
+      style="
+        margin-top: 18px;
+        padding: 14px 16px;
+        border: 1px dashed var(--line);
+        color: var(--muted);
+        font-size: 15px;
+      "
+    >
+      <b style="color: var(--fg)">What this section does not claim.</b> It does not say DocuHide
+      replaces DocuSign. The evidence supports a layer that controls content around a signing
+      workflow. Compliance for DocuHide is a design goal, not a certification. Market size, buyout
+      and funding claims belong in an investor document, not in a technical comparison.
+    </p>
+    <ul class="srcs">
+      <li>
+        <a
+          href="https://docusign.com/trust/compliance/certifications"
+          target="_blank"
+          rel="noopener"
+          >Docusign certifications and attestations</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://www.docusign.com/en-gb/blog/post-quantum-cryptography-how-docusign-is-securing-digital-agreements-for"
+          target="_blank"
+          rel="noopener"
+          >Docusign on post-quantum cryptography</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://community.docusign.com/tips-from-docusign-155/docusign-trainer-tips-how-to-configure-document-visibility-23193"
+          target="_blank"
+          rel="noopener"
+          >Docusign Document Visibility guide</a
+        >
+      </li>
+    </ul>
+  </section>
+
+  <section id="segments">
+    <div class="sec-head">
+      <div class="eyebrow">Who benefits</div>
+      <h2>Every field that shares one document with many readers</h2>
+      <p class="lead">
+        The pattern is the same everywhere: one source document, readers with different clearances,
+        and a duty to keep the rest private. DocuHide supports these regimes. It does not certify
+        compliance, which depends on how an organization deploys it and what its auditors accept.
+      </p>
+    </div>
+    <div class="segwrap">
+      <div class="seglist" id="segList" role="tablist" aria-label="Segments"></div>
+      <div class="segbody" id="segBody" role="tabpanel"></div>
+    </div>
+  </section>
+
+  <section id="quantum">
+    <div class="sec-head">
+      <div class="eyebrow">Post-quantum</div>
+      <h2>Designed for the quantum threat since 1999</h2>
+      <p class="lead">
+        Peter Shor published his factoring algorithm in 1994. It is the one quantum algorithm that
+        breaks the public-key cryptography the internet runs on, including 256-bit elliptic curves.
+        Lov Grover followed in 1996 with a search speedup that weakens symmetric keys but does not
+        break them. Warshaw diagrammed DocuHide in December 1999 with both in view, and holds the
+        patent.
+      </p>
+    </div>
+    <div class="tl">
+      <div>
+        <div class="yr">1994</div>
+        <h3>Shor</h3>
+        <p>
+          Efficient factoring and discrete logarithms on a quantum computer. Breaks RSA and
+          elliptic-curve keys of any practical size.
+        </p>
+      </div>
+      <div>
+        <div class="yr">1996</div>
+        <h3>Grover</h3>
+        <p>
+          Quadratic speedup for brute-force search. A 256-bit symmetric key keeps roughly 128 bits
+          of strength, which is still considered safe.
+        </p>
+      </div>
+      <div class="mine">
+        <div class="yr">1999</div>
+        <h3>Warshaw</h3>
+        <p>
+          Warshaw conceives and diagrams the parent and child design in December 1999. Per the
+          inventor.
+        </p>
+      </div>
+      <div class="mine">
+        <div class="yr">2026</div>
+        <h3>DocuHide Patent</h3>
+        <p>
+          U.S. Application No. 18/776,909. The design names ML-KEM and ML-DSA, the NIST post-quantum
+          standards.
+        </p>
+      </div>
+    </div>
+    <div class="compare">
+      <div class="card">
+        <div class="lbl">What a quantum attacker gets</div>
+        <h3>Less to steal, and no stand-in to reverse</h3>
+        <ul>
+          <li>
+            <b>Removed content is absent.</b> A child never contains the cut text, so there is
+            nothing for a future machine to decrypt.
+          </li>
+          <li>
+            <b>No token or mask.</b> Tokenization leaves a replacement that maps back to the
+            original. DocuHide leaves nothing, so there is no mapping to reverse and no trail for a
+            person or an AI tool to unmask.
+          </li>
+          <li>
+            <b>One key per child.</b> Breaking one recipient's copy exposes only that recipient's
+            view.
+          </li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="lbl">Where the rivals stand</div>
+        <h3>Post-quantum is on their roadmaps</h3>
+        <ul>
+          <li>
+            <b>Microsoft:</b> rollout from 2029, full transition by 2033 (single secondary source).
+          </li>
+          <li><b>Adobe:</b> ML-DSA signing tested May 2025, PDF specification pending.</li>
+          <li>
+            <b>DocuSign:</b> ML-DSA support started, migration dates due in 2026; downloaded PDFs
+            use RSA-4096 today.
+          </li>
+          <li><b>IBM:</b> Kyber and Dilithium on IBM Z, at the infrastructure layer.</li>
+          <li>
+            <b>Oracle:</b> ML-KEM and ML-DSA in Java since JDK 24 (March 2025); a PQC product is
+            announced, not yet reviewed.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="fine">
+    <p>
+      <b>Status of this model.</b> Built from the October 22, 2026 competitive analysis and public
+      vendor pages. That analysis lists the DocuHide redaction engine as not yet built and the
+      patent claims as allowed rather than issued, and it notes the claims do not recite a specific
+      post-quantum algorithm. Confirm patent status and wording before external use.
+    </p>
+    <p>
+      <b>Still to verify.</b> Adobe's redaction defaults and current post-quantum position, the date
+      and scope of DocuSign's ML-DSA migration, Microsoft's 2029 to 2033 timeline, Purview's 30-day
+      renewal behavior, and Oracle's announced PQC product and the current state of Oracle IRM.
+    </p>
+  </div>
+</div>
+
+<script>
+  (function () {
+    /* ---------- theme ---------- */
+    var root = document.documentElement;
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      var dark =
+        root.getAttribute('data-theme') === 'dark' ||
+        (!root.getAttribute('data-theme') &&
+          !window.matchMedia('(prefers-color-scheme: light)').matches);
+      root.setAttribute('data-theme', dark ? 'light' : 'dark');
+    });
+
+    /* ---------- demo ---------- */
+    var RECIPS = [
+      { id: 0, name: 'Public release', tag: 'level 0', key: 'PUB-0x7F31' },
+      { id: 1, name: 'Outside analyst', tag: 'level 1', key: 'ANL-0x2B9C' },
+      { id: 2, name: 'General counsel', tag: 'level 2', key: 'GC-0x58E4' },
+      { id: 3, name: 'Executive', tag: 'level 3', key: 'EXE-0xA104' },
+    ];
+    var DOC = [
+      { t: 'MEMORANDUM: Project Larkspur status', lv: 0, h: 1 },
+      {
+        t: 'Larkspur is the planned consolidation of the east and west regional offices, with a target completion in the third quarter.',
+        lv: 0,
+      },
+      {
+        t: 'Operating costs for the combined office are projected to fall by about 14 percent in the first full year.',
+        lv: 0,
+      },
+      {
+        t: 'The vendor shortlist is down to three firms, and site visits begin next month.',
+        lv: 1,
+      },
+      {
+        t: 'Counsel advises that the Dayton lease carries a $2.4M early-termination penalty, which we intend to negotiate.',
+        lv: 2,
+      },
+      {
+        t: 'The pending patent dispute may delay the transfer of the west lab by up to six months.',
+        lv: 2,
+      },
+      {
+        t: 'Board-only: the acquirer has offered $186M and a decision is due before quarter end.',
+        lv: 3,
+      },
+      { t: 'Next review is scheduled for the first Tuesday of the month.', lv: 0 },
+    ];
+    var state = { r: 3, m: 'dh' };
+    var $ = function (id) {
+      return document.getElementById(id);
+    };
+    function drawRecips() {
+      var h = '';
+      RECIPS.forEach(function (r) {
+        h +=
+          '<button type="button" data-r="' +
+          r.id +
+          '" aria-pressed="' +
+          (state.r === r.id) +
+          '">' +
+          r.name +
+          '<small>' +
+          r.tag +
+          '</small></button>';
+      });
+      $('recips').innerHTML = h;
+    }
+    function tokenize(t) {
+      return t
+        .split(' ')
+        .map(function (w) {
+          var h = 0;
+          for (var i = 0; i < w.length; i++) {
+            h = (h * 31 + w.charCodeAt(i)) >>> 0;
+          }
+          return (
+            'TK' +
+            h
+              .toString(16)
+              .toUpperCase()
+              .padStart(8, '0')
+              .slice(0, Math.max(4, Math.min(8, w.length + 1)))
+          );
+        })
+        .join(' ');
+    }
+    function drawDoc() {
+      var r = RECIPS[state.r],
+        cut = 0,
+        html = '';
+      DOC.forEach(function (l) {
+        var hidden = l.lv > state.r;
+        if (hidden) {
+          cut++;
+          if (state.m === 'conv') {
+            html +=
+              '<div class="ln"><span class="bar" aria-label="Redacted line">' +
+              '█'.repeat(Math.max(8, Math.round(l.t.length / 4.2))) +
+              '</span></div>';
+          }
+          if (state.m === 'tok') {
+            html +=
+              '<div class="ln"><span class="tok" aria-label="Tokenized line">' +
+              tokenize(l.t) +
+              '</span></div>';
+          }
+          return;
+        }
+        html +=
+          '<div class="ln' +
+          (l.h ? ' head' : '') +
+          '">' +
+          l.t +
+          (l.lv > 0 ? '<span class="tag">level ' + l.lv + '</span>' : '') +
+          '</div>';
+      });
+      $('doc').innerHTML = html;
+      $('sCut').textContent = cut;
+      $('sTrace').textContent = state.m === 'dh' ? 0 : cut;
+      $('pgFor').textContent = 'Copy for: ' + r.name;
+      $('pgTitle').textContent =
+        state.m === 'conv'
+          ? 'Black-bar redaction'
+          : state.m === 'tok'
+            ? 'Tokenized document'
+            : 'DocuHide child document';
+      var n = $('demoNote');
+      if (cut === 0) {
+        n.innerHTML =
+          '<b>Full document.</b> The executive child contains every section. It is still encrypted for this reader alone, so a forwarded copy cannot be opened by anyone else.';
+      } else if (state.m === 'tok') {
+        n.innerHTML =
+          '<b>' +
+          cut +
+          ' section' +
+          (cut > 1 ? 's are' : ' is') +
+          ' replaced by tokens.</b> Each token is a stand-in that maps back to the original through a vault or key, so anyone who reaches the mapping can detokenize the text. Deterministic tokens also repeat, so the same value can be matched across documents, and surrounding context invites inference, including by AI. The substitution itself is the trail.';
+      } else if (state.m === 'conv') {
+        n.innerHTML =
+          '<b>' +
+          cut +
+          ' black bar' +
+          (cut > 1 ? 's' : '') +
+          ' show where text was cut.</b> Line length hints at what was removed, and a reader knows something is missing. The same file goes to everyone, so one leak cannot be traced to one person.';
+      } else {
+        n.innerHTML =
+          '<b>Nothing shows where ' +
+          cut +
+          ' section' +
+          (cut > 1 ? 's were' : ' was') +
+          ' removed.</b> The page reflows and whitespace is reclaimed, so no gap or bar remains. This reader holds a copy no one else has.';
+      }
+      $('keyline').textContent =
+        state.m === 'dh'
+          ? 'Encrypted for ' + r.name + '  |  key ' + r.key + '  |  master key vaulted'
+          : '';
+    }
+    $('recips').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      state.r = +b.dataset.r;
+      drawRecips();
+      drawDoc();
+    });
+    $('modes').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      state.m = b.dataset.m;
+      Array.prototype.forEach.call($('modes').children, function (x) {
+        x.setAttribute('aria-pressed', x === b);
+      });
+      drawDoc();
+    });
+    state.r = 1;
+    drawRecips();
+    drawDoc();
+
+    /* ---------- rivals ---------- */
+    var COLS = [
+      'Different content per recipient',
+      'Removal leaves no trace',
+      'Per-recipient revocation',
+      'Post-quantum status',
+    ];
+    function V(k, t) {
+      var s = { yes: '✓', part: '~', no: '✗', unk: '?' }[k];
+      return '<span class="v ' + k + '"><i>' + s + '</i><span>' + t + '</span></span>';
+    }
+    var RIVALS = [
+      {
+        id: 'purview',
+        name: 'Microsoft Purview',
+        cells: [
+          V('no', 'No. Everyone with access sees the same content.'),
+          V('no', 'No'),
+          V(
+            'part',
+            'Per file. Opened copies keep access until the license lapses (30 days by default).',
+          ),
+          V('part', 'Rollout from 2029, full transition by 2033'),
+        ],
+        pros: [
+          'Encryption follows the file',
+          'View, edit, print, copy and expiry rights',
+          'Reaches every Microsoft 365 user',
+        ],
+        cons: [
+          'One version of the content for all readers',
+          'Revocation is per file, and a copy or upload gets a new ContentID that escapes it',
+          'Licenses renew after 30 days when group membership still qualifies; no administrator approval step found',
+          'Tracking covers local Office files only',
+          '9 CVEs listed in cloud services, mostly server-side, not a break in the rights layer',
+        ],
+        take: 'The closest competitor and the one to beat. DocuHide sets policy upstream, per recipient, before the file exists. The CVE point should be used carefully: those are hosted-service flaws.',
+      },
+      {
+        id: 'adobe',
+        name: 'Adobe Acrobat',
+        cells: [
+          V('no', 'No. One redacted file for every reader.'),
+          V('no', 'No. Redaction is not designed to be invisible.'),
+          V('no', 'No'),
+          V('part', 'ML-DSA signing tested May 2025; PDF specification pending'),
+        ],
+        pros: ['Permanent removal of text and graphics', 'The PDF standard'],
+        cons: [
+          'One redacted file serves all readers',
+          'Black boxes show where content was removed',
+          'No per-recipient keys or revocation',
+          'Post-quantum depends on the PDF specification catching up',
+        ],
+        take: 'Adobe redacts well but once. DocuHide produces many versions from one parent. Adobe row rests on limited sources and needs verification.',
+      },
+      {
+        id: 'docusign',
+        name: 'DocuSign',
+        cells: [
+          V(
+            'part',
+            'Partial. Document Visibility controls which documents in an envelope each recipient sees, not the content inside a document. Off by default.',
+          ),
+          V('no', 'Not found in its published materials'),
+          V('no', 'Not found. An envelope can be voided, which ends it for everyone.'),
+          V(
+            'part',
+            'In progress. ML-DSA support started; migration dates due in 2026. Downloaded PDFs use RSA-4096 today.',
+          ),
+        ],
+        pros: [
+          'Dominant signing and agreement workflow, with ESIGN, UETA and eIDAS coverage',
+          'Audited credentials: SOC 2 Type II, ISO 27001, FedRAMP authorization for Docusign Federal and CLM, DoD IL4, and a qualified trust service provider in France',
+          'Completed PDFs carry a digital signature, so changes after signing are detectable',
+          'Recipient-level control over which documents in an envelope each person sees',
+        ],
+        cons: [
+          'Visibility works per document, not per section, so everyone who sees a document sees all of it',
+          'No per-recipient content versions and no content removal that leaves no trace, in the materials I found',
+          'Post-quantum signing is started, not shipped, and depends on PDF readers and verifiers adding support',
+          'Signing and identity are the product. Containing what is inside the document after signature is outside it',
+        ],
+        take: 'DocuSign records who signed and when, and it holds the audited credentials DocuHide does not have yet. DocuHide controls what each reader sees inside the document. Today the two fit together better than they compete.',
+      },
+      {
+        id: 'ibm',
+        name: 'IBM',
+        cells: [
+          V('no', 'No'),
+          V('no', 'No. Tokenization leaves a replacement that maps back to the original.'),
+          V('no', 'No'),
+          V('yes', 'Yes, at the infrastructure layer'),
+        ],
+        pros: [
+          'Kyber and Dilithium on IBM Z through ICSF and Crypto Express8S',
+          'Strong hardware crypto for data in flight',
+        ],
+        cons: [
+          'Protects infrastructure and data in flight, not what a reader is cleared to see',
+          'No per-recipient document layer',
+          'Tokenization replaces sensitive content with a token that maps back to the original. IBM describes the vault as the only place a token connects to its value, which makes the vault, or the key in vaultless schemes, the target',
+          'Reversible tokens can be detokenized, so the original is recoverable by design. Deterministic tokens repeat, which lets the same value be matched across documents',
+          'Format-preserving tokens keep the shape of the data, and surrounding text keeps its context, so inference remains possible, including by AI tools',
+        ],
+        take: 'IBM secures the pipe, and its tokenization hides content behind a stand-in. DocuHide removes the content from the child and substitutes nothing, so the child holds no token, no mapping and no placeholder to follow or unmask. The cut text exists only in the encrypted parent.',
+      },
+      {
+        id: 'oracle',
+        name: 'Oracle',
+        cells: [
+          V(
+            'unk',
+            'Not documented. Oracle IRM grants per-recipient rights over the same sealed content.',
+          ),
+          V('unk', 'Not documented'),
+          V('part', 'Rights can be revoked or changed later (Oracle IRM)'),
+          V('part', 'Java has ML-KEM and ML-DSA; a PQC product is announced'),
+        ],
+        pros: [
+          'Java added ML-KEM and ML-DSA in JDK 24 (March 2025), with hybrid TLS 1.3 in JDK 27 (September 2026)',
+          'LTS backports: JDK 21 and 17 in October 2026, JDK 11 and 8 in the second half of 2027',
+          'Oracle IRM seals documents and emails with per-user rights',
+        ],
+        cons: [
+          'Java supplies cryptographic building blocks. Oracle says the platform can enable post-quantum cryptography but does not force its use, so each application must adopt it',
+          'Older Java versions wait until late 2027 for the algorithms, and Oracle describes the work as focused on data in transit',
+          'Oracle IRM documentation I found is older and describes rights over one version of a document, with no redaction or per-recipient variants',
+          'The announced PQC product was not reviewed here',
+        ],
+        take: 'Oracle is a contender on the post-quantum story, not on per-recipient content. If its product leans on Java, the question for buyers is how much of the protection arrives by default and how much each customer must build and test.',
+      },
+    ];
+    var rsel = 'purview';
+    function drawMatrix() {
+      var h =
+        '<thead><tr><th>Product</th>' +
+        COLS.map(function (c) {
+          return '<th>' + c + '</th>';
+        }).join('') +
+        '</tr></thead><tbody>';
+      RIVALS.forEach(function (r) {
+        h +=
+          '<tr' +
+          (r.id === rsel ? ' class="sel"' : '') +
+          '><td class="rowname">' +
+          r.name +
+          '</td>' +
+          r.cells
+            .map(function (c) {
+              return '<td>' + c + '</td>';
+            })
+            .join('') +
+          '</tr>';
+      });
+      h +=
+        '<tr class="dh"><td class="rowname">DocuHide</td><td>' +
+        V('yes', 'Yes. Per recipient trust profile.') +
+        '</td><td>' +
+        V('yes', 'Yes. Page reflows, whitespace reclaimed.') +
+        '</td><td>' +
+        V('yes', 'Yes. One recipient can be cut off.') +
+        '</td><td>' +
+        V('yes', 'ML-KEM and ML-DSA in the design; not recited in the claims') +
+        '</td></tr></tbody>';
+      $('matrix').innerHTML = h;
+      var r = RIVALS.filter(function (x) {
+        return x.id === rsel;
+      })[0];
+      $('rivalDetail').innerHTML =
+        '<div class="card"><div class="lbl">' +
+        r.name +
+        ': strengths</div><ul>' +
+        r.pros
+          .map(function (p) {
+            return '<li>' + p + '</li>';
+          })
+          .join('') +
+        '</ul></div>' +
+        '<div class="card"><div class="lbl">' +
+        r.name +
+        ': shortcomings</div><ul>' +
+        r.cons
+          .map(function (p) {
+            return '<li>' + p + '</li>';
+          })
+          .join('') +
+        '</ul></div>' +
+        '<div class="card" style="grid-column:1/-1"><div class="lbl">Against DocuHide</div><p>' +
+        r.take +
+        '</p></div>';
+    }
+    var cs = '';
+    RIVALS.forEach(function (r) {
+      cs +=
+        '<button class="chip" type="button" data-id="' +
+        r.id +
+        '" aria-pressed="' +
+        (r.id === rsel) +
+        '">' +
+        r.name +
+        '</button>';
+    });
+    $('rivalChips').innerHTML = cs;
+    $('rivalChips').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      rsel = b.dataset.id;
+      Array.prototype.forEach.call($('rivalChips').children, function (x) {
+        x.setAttribute('aria-pressed', x === b);
+      });
+      drawMatrix();
+    });
+    drawMatrix();
+
+    /* ---------- segments ---------- */
+    var SEGS = [
+      {
+        n: 'Government',
+        p: ['FOIA', 'State open records', 'CUI'],
+        a: 'Agencies release the same record to the public, to partner agencies and to oversight bodies, each entitled to a different amount.',
+        b: 'One parent produces the blacked-out public version for open-records release and fuller versions for each cleared office. Revoking one recipient does not disturb the rest.',
+      },
+      {
+        n: 'Military',
+        p: ['Need to know', 'Classification levels', 'CUI / DoD'],
+        a: 'Orders, intelligence summaries and logistics plans move across units and allies with different clearances.',
+        b: 'Each child holds only what that unit or ally may see, bound to its trust profile (device, IP, MAC, location). A lost laptop exposes one child, not the master.',
+      },
+      {
+        n: 'Medical records',
+        p: ['HIPAA', 'Minimum necessary', 'Business associates'],
+        a: 'A chart goes to billing, a specialist, an insurer and the patient. HIPAA expects each to receive only the minimum necessary.',
+        b: 'Per-recipient children make minimum necessary a property of the file itself rather than a policy people must remember. Access ends for one recipient at a time.',
+      },
+      {
+        n: 'Banking and finance',
+        p: ['SOX', 'GLBA', 'BITS'],
+        a: 'Audit workpapers, loan files, board packages and regulator submissions go to auditors, counterparties and examiners.',
+        b: 'Sensitive figures are cut from lower-trust copies, and every recipient holds a different, encrypted version. That supports SOX control evidence and the sharing practices BITS guidance describes.',
+      },
+      {
+        n: 'Academia',
+        p: ['FERPA', 'Grant data', 'Research IP'],
+        a: 'Student records, unpublished research and grant files circulate among faculty, collaborators, sponsors and reviewers.',
+        b: 'Reviewers and partners get copies that exclude student identifiers or unpublished results, so a manuscript or dataset cannot leak ahead of publication.',
+      },
+      {
+        n: 'Legal and regulatory',
+        p: ['Privilege', 'Discovery', 'Protective orders'],
+        a: 'Counsel produces documents to courts, opposing parties, regulators and clients, each with different privilege and confidentiality limits.',
+        b: 'One matter file yields a privileged internal version, a redacted production set and a public filing. Removal leaves no black boxes to argue over, and each production copy is traceable.',
+      },
+      {
+        n: 'IP and trade secrets',
+        p: ['DTSA', 'Trade secrets', 'Leak attribution'],
+        a: 'Formulas, source designs and deal terms must go to partners, contractors and investors without losing secrecy.',
+        b: 'Every recipient holds a different copy, so a leaked document points back to the version it matches. Reasonable-measures evidence is built into distribution. Leak attribution follows from the design and still needs attorney confirmation.',
+      },
+    ];
+    var ss = 0;
+    function drawSeg() {
+      var l = '';
+      SEGS.forEach(function (s, i) {
+        l +=
+          '<button type="button" role="tab" aria-selected="' +
+          (i === ss) +
+          '" data-i="' +
+          i +
+          '">' +
+          s.n +
+          '</button>';
+      });
+      $('segList').innerHTML = l;
+      var s = SEGS[ss];
+      $('segBody').innerHTML =
+        '<h3 style="font-size:26px">' +
+        s.n +
+        '</h3><div class="pills">' +
+        s.p
+          .map(function (x) {
+            return '<span class="pill">' + x + '</span>';
+          })
+          .join('') +
+        '</div>' +
+        '<div class="two"><div><h3>The problem</h3><p>' +
+        s.a +
+        '</p></div><div><h3>What DocuHide changes</h3><p>' +
+        s.b +
+        '</p></div></div>';
+    }
+    $('segList').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      ss = +b.dataset.i;
+      drawSeg();
+    });
+    drawSeg();
+  })();
+</script>
